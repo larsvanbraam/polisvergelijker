@@ -5,21 +5,9 @@ import { $, esc } from './format';
 import { needDef } from './needlist';
 import { renderPlanResult } from './plan';
 import { S, saveCtr } from './state';
+import type { ContractResponse, ContractStatus, FinderResult } from '../lib/finders/types';
 import type { ContractState, Need } from './types';
 
-/** Answer of /api/contract (field names follow the adapter contract, see lib/adapters/README.md). */
-interface FinderMatch {
-  naam: string;
-  adres?: string;
-  contract: 'ja' | 'nee' | 'gesprek' | 'onbekend';
-  tekst?: string;
-}
-interface FinderResult {
-  concern: string;
-  status: 'ok' | 'unsupported' | 'error';
-  matches?: FinderMatch[];
-  reden?: string;
-}
 type Lookup =
   | { state: 'busy' }
   | { state: 'done'; result: FinderResult }
@@ -28,17 +16,17 @@ type Lookup =
 /** Lookup results per "<need id>|<concern group>"; kept for the session only. */
 const lookups: Record<string, Lookup> = {};
 
-const CONTRACT_STATE: Record<FinderMatch['contract'], ContractState> = {
-  ja: 'yes',
-  nee: 'no',
-  gesprek: '?',
-  onbekend: '?',
+const CONTRACT_STATE: Record<ContractStatus, ContractState> = {
+  yes: 'yes',
+  no: 'no',
+  negotiating: '?',
+  unknown: '?',
 };
-const CONTRACT_TEXT: Record<FinderMatch['contract'], string> = {
-  ja: 'contract',
-  nee: 'geen contract',
-  gesprek: 'nog in gesprek',
-  onbekend: 'status onbekend',
+const CONTRACT_TEXT: Record<ContractStatus, string> = {
+  yes: 'contract',
+  no: 'geen contract',
+  negotiating: 'nog in gesprek',
+  unknown: 'status onbekend',
 };
 
 /** Ask the provider finders of all shown concerns at once; fills the dropdowns with what they report. */
@@ -48,14 +36,14 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
   for (const g of groups) lookups[n.id + '|' + g] = { state: 'busy' };
   renderCtr();
   const q = new URLSearchParams({
-    naam: name,
-    postcode: place,
-    soort: n.finderTypes ?? n.treatment.toLowerCase(),
+    name,
+    location: place,
+    type: n.finderTypes ?? n.treatment.toLowerCase(),
     concerns: groups.join(','),
   });
   try {
     const res = await fetch('/api/contract?' + q.toString());
-    const body = (await res.json()) as { results?: FinderResult[]; error?: string };
+    const body = (await res.json()) as Partial<ContractResponse> & { error?: string };
     if (!res.ok || !body.results) throw new Error(body.error || 'HTTP ' + res.status);
     for (const g of groups) {
       const result = body.results.find((r) => r.concern === g);
@@ -63,12 +51,12 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
       if (!result) {
         lookups[k] = {
           state: 'done',
-          result: { concern: g, status: 'unsupported', reden: 'geen antwoord van deze zorgzoeker' },
+          result: { status: 'unsupported', reason: 'geen antwoord van deze zorgzoeker' },
         };
         continue;
       }
       lookups[k] = { state: 'done', result };
-      const best = result.status === 'ok' ? result.matches?.[0] : undefined;
+      const best = result.status === 'ok' ? result.matches[0] : undefined;
       if (best) S.contracts[k] = CONTRACT_STATE[best.contract] ?? '?';
     }
     saveCtr();
@@ -87,13 +75,13 @@ function lookupNote(k: string): string {
   if (l.state === 'failed') return `<div class="lookup small warn-t">Opzoeken mislukt: ${esc(l.error)}</div>`;
   const r = l.result;
   if (r.status !== 'ok')
-    return `<div class="lookup small">Niet automatisch te controleren${r.reden ? ': ' + esc(r.reden) : ''}</div>`;
-  const m = r.matches ?? [];
+    return `<div class="lookup small">Niet automatisch te controleren${r.reason ? ': ' + esc(r.reason) : ''}</div>`;
+  const m = r.matches;
   if (!m.length)
     return '<div class="lookup small">Niet gevonden in de zorgzoeker; controleer de naam of zoek zelf via de link.</div>';
   const best = m[0];
   const more = m.length > 1 ? ` <span class="muted">(+${m.length - 1} andere treffers)</span>` : '';
-  return `<div class="lookup small" title="${esc(best.tekst)}">Zorgzoeker: <b>${esc(best.naam)}</b>${best.adres ? ', ' + esc(best.adres) : ''} – ${esc(CONTRACT_TEXT[best.contract] ?? best.contract)}${more}</div>`;
+  return `<div class="lookup small" title="${esc(best.text)}">Zorgzoeker: <b>${esc(best.name)}</b>${best.address ? ', ' + esc(best.address) : ''} – ${esc(CONTRACT_TEXT[best.contract] ?? best.contract)}${more}</div>`;
 }
 
 /** Table to record, per concern, whether the user's own provider has a contract. */

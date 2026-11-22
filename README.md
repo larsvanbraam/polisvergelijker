@@ -11,7 +11,7 @@ The site itself is in Dutch, as are the extracted policy texts. Code, comments a
 1. `download.sh` fetches the policy conditions and coverage overviews listed in `urls.txt` into `pdfs/` (not committed).
 2. The scripts in `scripts/extract/` read those PDFs (`pdftotext -layout` / pdfplumber) into `data/*.psv` and `data/*.mpsv`.
 3. `build.py` combines them with `data/base.json` (base policies, premiums, out-of-network reimbursement) into `site/public/data.json`.
-4. `site/` is the website: a [Vite+](https://viteplus.dev) project in TypeScript (no framework), plus `api/contract.js`, a serverless function that asks the insurers' provider finders whether a provider has a contract.
+4. `site/` is the website: a [Vite+](https://viteplus.dev) project in TypeScript (no framework), plus `api/contract.ts`, a serverless function that asks the insurers' provider finders whether a provider has a contract (finders in `site/lib/finders`, see its README).
 
 ## Site structure (`site/src`)
 
@@ -22,7 +22,7 @@ The site itself is in Dutch, as are the extracted policy texts. Code, comments a
 | `pricing.ts` | Total price, estimated reimbursement, contracts, FBTO module combinations (tested in `pricing.test.ts`) |
 | `plan.ts` | Step-by-step plan (tab *stappenplan*) |
 | `treatment.ts`, `packages.ts`, `needs.ts` | Tabs *behandeling*, *pakketten*, *behoefte* |
-| `sidebar.ts`, `filters.ts`, `contracts.ts` | Treatment list, filter bar and routing, contract table |
+| `sidebar.ts`, `filters.ts`, `contracts.ts` | Treatment list, filter bar and routing, contract table with automatic lookup |
 | `footnotes.ts`, `links.ts`, `cards.ts`, `format.ts` | Footnotes, purchase lines, mobile card tables, formatting helpers |
 | `needlist.ts`, `concerns.ts`, `state.ts`, `theme.ts` | Preset needs, insurer groups and finder URLs, UI state, light/dark |
 
