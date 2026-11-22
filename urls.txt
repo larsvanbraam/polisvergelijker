@@ -1,0 +1,67 @@
+# label|bestandsnaam|url   (regels met # worden overgeslagen)
+DSW|dsw-av-compact-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Compact-2027-DSW.pdf
+DSW|dsw-av-standaard-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Standaard-2027-DSW.pdf
+DSW|dsw-av-top-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Top-2027-DSW.pdf
+VGZ|vgz-aanvullend-2027.pdf|https://voorwaarden.vgz.nl/d0132-202611-vgz-aanvullend-gbb-tand-gbb-2027.pdf
+Univé|unive-vergoedingen-2027.pdf|https://www.unive.nl/binaries/br/content/assets/particulier-sales/zorgverzekering/2027/vergoedingen/d8108-202611-unive-vergoedingen-basis-geregeld-uitgebreid-web.pdf
+Univé|unive-voorwaarden-av-2027.pdf|https://www.unive.nl/binaries/br/content/assets/particulier-sales/zorgverzekering/2027/av-voorwaarden/voorwaarden-2027-unive-zorg-budget-goed-beter-best-en-tand.pdf
+Menzis|menzis-vergoedingenwijzer-2027.pdf|https://www.menzis.nl/-/m/publieke-sites/menzis/consument/downloads/2027/vergoedingenwijzers/vergoedingenwijzer_nederlands_2027.pdf
+Menzis|menzis-voorwaarden-extraverzorgd-2027.pdf|https://voorwaarden.menzis.nl/verzekeringsvoorwaarden-menzisbasis-extraverzorgd-tandverzorgd-2027.pdf
+CZ|cz-basis-2027.pdf|https://www.cz.nl/-/media/files/cz/actueel/vergoedingenoverzicht/aanvullende-verzekering-basis-8000103.pdf
+CZ|cz-plus-2027.pdf|https://www.cz.nl/-/media/files/cz/actueel/vergoedingenoverzicht/aanvullende-verzekering-plus-8000104.pdf
+CZ|cz-top-2027.pdf|https://www.cz.nl/-/media/files/cz/actueel/vergoedingenoverzicht/aanvullende-verzekering-top-8000105.pdf
+CZ|cz-jongeren-2027.pdf|https://www.cz.nl/-/media/files/cz/actueel/vergoedingenoverzicht/aanvullende-verzekering-jongeren-8000112.pdf
+CZ|cz-50plus-2027.pdf|https://www.cz.nl/-/media/files/cz/actueel/vergoedingenoverzicht/aanvullende-verzekering-50-plus-8000113.pdf
+CZdirect|czdirect-start-2027.pdf|https://czdirect.cz.nl/-/media/files/czdirect/actueel/vergoedingenoverzicht/aanvullende-verzekering-czdirect-start.pdf
+CZdirect|czdirect-slim-2027.pdf|https://czdirect.cz.nl/-/media/files/czdirect/actueel/vergoedingenoverzicht/aanvullende-verzekering-czdirect-slim.pdf
+CZdirect|czdirect-goed-2027.pdf|https://czdirect.cz.nl/-/media/files/czdirect/actueel/vergoedingenoverzicht/aanvullende-verzekering-czdirect-goed.pdf
+Zilveren Kruis|zk-voorwaarden-2027.pdf|https://voorwaarden.zilverenkruis.nl/90482-2701-voorwaarden-basis-start-zeker-exclusief.pdf
+ONVZ|onvz-aanvullend-2027.pdf|https://voorwaarden.onvzzorg.nl/d5132-202611-onvz-aanvullende-verzekeringen-en-tandverzekeringen-2027.pdf
+a.s.r.|asr-aanvullend-2027.pdf|https://downloads.asr.nl/pdf/57604_2027.pdf
+FBTO|fbto-voorwaarden-2027.pdf|https://www.fbto.nl/-/media/documenten/zorg/zorgverzekering-voorwaarden-basis-2027.pdf
+Interpolis|interpolis-voorwaarden-2027.pdf|https://www.interpolis.nl/-/media/files/0396-102026-voorwaarden-zorgactief.pdf
+Interpolis|interpolis-vergoedingenwijzer-2027.pdf|https://www.interpolis.nl/-/media/files/2027_vergoedingenwijzer_zorgactief.pdf
+Interpolis|interpolis-premietabel-2027.pdf|https://www.interpolis.nl/-/media/files/2027_premietabel_zorgactief.pdf
+De Friesland|defriesland-aanvullend-2027.pdf|https://www.defriesland.nl/-/media/defriesland/files/consument/voorwaarden-2027/2701-polisvoorwaarden-aanvullende-verzekeringen-2027.pdf
+Zorg en Zekerheid|zz-zorgzeker-2027.pdf|https://www.zorgenzekerheid.nl/contentbeheer/download/polisvoorwaarden-zorg-zeker-polis-en-aanvullende-verzekeringen-2027
+Zorg en Zekerheid|zz-zorggemak-2027.pdf|https://www.zorgenzekerheid.nl/contentbeheer/download/polisvoorwaarden-zorg-gemak-polis-en-aanvullende-verzekeringen-2027
+Zorg en Zekerheid|zz-zorgvrij-2027.pdf|https://www.zorgenzekerheid.nl/contentbeheer/download/polisvoorwaarden-zorg-vrij-polis-en-aanvullende-verzekeringen-2027
+OHRA|ohra-compact-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/polisvoorwaarden/ohra-zorgverzekering-polisvoorwaarden-compact-2027.pdf
+OHRA|ohra-aanvullend-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/polisvoorwaarden/ohra-zorgverzekering-polisvoorwaarden-aanvullend-2027.pdf
+OHRA|ohra-extra-aanvullend-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/polisvoorwaarden/ohra-zorgverzekering-polisvoorwaarden-extra-aanvullend-2027.pdf
+OHRA|ohra-uitgebreid-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/polisvoorwaarden/ohra-zorgverzekering-polisvoorwaarden-uitgebreid-2027.pdf
+Nationale-Nederlanden|nn-zv-zorg-basis-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Voordelig-aanvullende-verzekeringen-Zorg-Basis-2027.htm
+Nationale-Nederlanden|nn-zv-zorg-zeker-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Voordelig-aanvullende-verzekeringen-Zorg-Zeker-2027.htm
+Nationale-Nederlanden|nn-zv-zorg-zeker-plus-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Voordelig-aanvullende-verzekeringen-Zorg-Zeker-Plus-2027.htm
+Nationale-Nederlanden|nn-vrij-instap-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Vrij-aanvullende-verzekering-Instap-2027.htm
+Nationale-Nederlanden|nn-vrij-start-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Vrij-aanvullende-verzekering-Start-2027.htm
+Nationale-Nederlanden|nn-vrij-extra-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Vrij-aanvullende-verzekering-Extra-2027.htm
+Nationale-Nederlanden|nn-vrij-compleet-2027.pdf|https://www.nn.nl/Download/Vergoedingenoverzicht-Zorg-Vrij-aanvullende-verzekering-Compleet-2027.htm
+Nationale-Nederlanden|nn-vrij-extra-voorwaarden-2027.pdf|https://www.nn.nl/Download/Voorwaardenboek-Zorg-Vrij-aanvullende-verzekering-Extra-2027.htm
+Stad Holland|sh-compact-2027.pdf|https://www.stadholland.nl/consumenten/-/media/Documenten/SH/2027/Compact-AV-2027-Stad-Holland.pdf
+Stad Holland|sh-standaard-2027.pdf|https://www.stadholland.nl/consumenten/-/media/Documenten/SH/2027/Standaard-AV-2027-Stad-Holland.pdf
+Stad Holland|sh-uitgebreid-2027.pdf|https://www.stadholland.nl/consumenten/-/media/Documenten/SH/2027/Uitgebreide-AV-2027-Stad-Holland.pdf
+Stad Holland|sh-extra-uitgebreid-2027.pdf|https://www.stadholland.nl/consumenten/-/media/Documenten/SH/2027/Extra-Uitgebreide-AV-2027-Stad-Holland.pdf
+IZA|iza-extra-zorg-2027.pdf|https://voorwaarden.iza.nl/d3709-202611-verzekeringsvoorwaarden-iza-extra-zorg-en-iza-extra-tand-2027.pdf
+OHRA|ohra-vo-compact-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/vergoedingenoverzichten/ohra-zorgverzekering-vergoedingenoverzicht-compact-2027.pdf
+OHRA|ohra-vo-sterk-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/vergoedingenoverzichten/ohra-zorgverzekering-vergoedingenoverzicht-sterk-2027.pdf
+OHRA|ohra-vo-aanvullend-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/vergoedingenoverzichten/ohra-zorgverzekering-vergoedingenoverzicht-aanvullend-2027.pdf
+OHRA|ohra-vo-extra-aanvullend-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/vergoedingenoverzichten/ohra-zorgverzekering-vergoedingenoverzicht-extra-aanvullend-2027.pdf
+OHRA|ohra-vo-uitgebreid-2027.pdf|https://www.ohra.nl/binaries/content/assets/zorgverzekering/vergoedingenoverzichten/ohra-zorgverzekering-vergoedingenoverzicht-uitgebreid-2027.pdf
+VvAA|vvaa-vergoedingenoverzicht-2027.pdf|https://downloads.asr.nl/pdf/44263_2027.pdf
+Salland|salland-kaart-start-2027.pdf|https://zorgverzekeringskaart.nl/salland/aanvullende-verzekering-start/2027/aanvullende-verzekering-start-2027-1.pdf
+Salland|salland-kaart-extra-2027.pdf|https://zorgverzekeringskaart.nl/salland/aanvullende-verzekering-extra/2027/aanvullende-verzekering-extra-2027-1.pdf
+Salland|salland-kaart-plus-2027.pdf|https://zorgverzekeringskaart.nl/salland/aanvullende-verzekering-plus/2027/aanvullende-verzekering-plus-2027-1.pdf
+Salland|salland-kaart-top-2027.pdf|https://zorgverzekeringskaart.nl/salland/aanvullende-verzekering-top/2027/aanvullende-verzekering-top-2027-1.pdf
+FBTO|fbto-voorwaarden-2027.pdf|https://www.fbto.nl/-/media/documenten/zorg/zorgverzekering-voorwaarden-basis-2027.pdf
+FBTO|fbto-voorwaarden-b-2027.pdf|https://www.fbto.nl/-/media/documenten/zorg/zorgverzekering-voorwaarden-basis.pdf
+FBTO|fbto-premieoverzicht-2027.pdf|https://www.fbto.nl/-/media/documenten/Zorg/zorgverzekering-premieoverzicht.pdf
+Just|just-live-2027.pdf|https://www.just.nl/-/media/files/just/actueel/vergoedingenoverzicht/aanvullende-verzekering-just-live.pdf
+Just|just-live-voorwaarden-2027.pdf|https://www.just.nl/-/media/files/just/actueel/voorwaardenoverzicht/vb-av-just-live.pdf
+Aevitae|aevitae-vergoedingen.pdf|https://zorgverzekeringskaart.aevitae.com/documents/AEV_DO_Prettig_Prima_Populair_Ruim_Riant_3601.pdf
+Aevitae|aevitae-kaart-prettig-2027.pdf|https://zorgverzekeringskaart.nl/aevitae/prettig/2027/aevitae-zorgpolis-prettig-2027-1.pdf
+Aevitae|aevitae-kaart-prima-2027.pdf|https://zorgverzekeringskaart.nl/aevitae/prima/2027/aevitae-zorgpolis-prima-2027-1.pdf
+Aevitae|aevitae-kaart-populair-2027.pdf|https://zorgverzekeringskaart.nl/aevitae/populair/2027/aevitae-zorgpolis-populair-2027-1.pdf
+Aevitae|aevitae-kaart-ruim-2027.pdf|https://zorgverzekeringskaart.nl/aevitae/ruim/2027/aevitae-zorgpolis-ruim-2027-1.pdf
+Aevitae|aevitae-kaart-riant-2027.pdf|https://zorgverzekeringskaart.nl/aevitae/riant/2027/aevitae-zorgpolis-riant-2027-1.pdf
+# Niet meer (los) af te sluiten in 2027: Zekur (wordt Univé), Anderzorg (fuseert met Menzis). PNO: geen 2027-aanbod gevonden

@@ -1,0 +1,15 @@
+# Brondocumenten van verzekeraars: niet herpubliceren, opnieuw ophalen met ./download.sh
+pdfs/
+
+# Vercel-koppeling (lokaal)
+.vercel/
+site/.vercel/
+
+# Lokale tooling en rommel
+.claude/settings.local.json
+.claude/skills/
+.agents/
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
