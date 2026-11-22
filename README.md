@@ -27,7 +27,7 @@ node dev.js           # http://localhost:8765
 
 ## Deployen
 
-Vercel-project `polisvergelijker`, gekoppeld aan deze repo met **Root Directory: `site`**. Elke push naar `main` gaat live. Handmatig kan ook met `./deploy.sh` (of `./deploy.sh --preview`).
+Vercel-project `polisvergelijker`, gekoppeld aan deze repo met **Root Directory: `site`**. Elke push naar `main` gaat live; andere branches krijgen een preview-URL. Draai na een datawijziging eerst `python3 build.py`, zodat `site/data.json` mee gaat in de commit.
 
 ## Disclaimer
 
