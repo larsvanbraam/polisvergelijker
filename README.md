@@ -35,6 +35,10 @@ The site itself is in Dutch, as are the extracted policy texts. Code, comments a
 
 Each script has its usage in its docstring.
 
+## Share image
+
+`site/og.png` (1200×630) is rendered from `design/og.html` with a headless browser. The design uses IBM Plex from `@fontsource` (`npm i @fontsource/ibm-plex-sans @fontsource/ibm-plex-sans-condensed @fontsource/ibm-plex-mono` next to it).
+
 ## Run locally
 
 ```bash

@@ -1,0 +1,40 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:"IBM Plex Sans";font-weight:400;src:url(node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2)}
+@font-face{font-family:"IBM Plex Sans";font-weight:500;src:url(node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2)}
+@font-face{font-family:"IBM Plex Sans";font-weight:600;src:url(node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2)}
+@font-face{font-family:"IBM Plex Sans Condensed";font-weight:600;src:url(node_modules/@fontsource/ibm-plex-sans-condensed/files/ibm-plex-sans-condensed-latin-600-normal.woff2)}
+@font-face{font-family:"IBM Plex Mono";font-weight:500;src:url(node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2)}
+</style>
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:1200px;height:630px;background:#f5f7f6;font-family:"IBM Plex Sans",sans-serif;color:#18242b;position:relative;overflow:hidden}
+.wrap{position:absolute;inset:0;padding:64px 72px;display:grid;grid-template-columns:1fr 430px;gap:48px;align-items:center}
+.brand{display:flex;align-items:center;gap:16px;margin-bottom:36px}
+.brand svg{width:56px;height:56px}
+.brand span{font-family:"IBM Plex Sans Condensed";font-weight:600;font-size:34px}
+.brand em{font-style:normal;font-family:"IBM Plex Mono";font-size:18px;color:#0c6b5a;border:1.5px solid #c9d6d2;border-radius:99px;padding:2px 12px}
+h1{font-family:"IBM Plex Sans Condensed";font-weight:600;font-size:60px;line-height:1.05;letter-spacing:-.01em}
+p{margin-top:22px;font-size:25px;line-height:1.4;color:#5d6b72}
+.card{background:#fff;border:1.5px solid #d9e0de;border-radius:16px;padding:22px 24px;box-shadow:0 18px 40px rgba(24,36,43,.08)}
+.card h3{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#5d6b72;font-weight:500;margin-bottom:14px}
+.row{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:12px 0;border-top:1px solid #e6ebe9;font-size:19px}
+.row b{font-weight:600}.row .n{font-family:"IBM Plex Mono";color:#5d6b72;font-size:16px}
+.row .p{font-family:"IBM Plex Mono";font-weight:500}
+.row.best{background:#dcefe9;margin:0 -24px;padding:12px 24px;border-top-color:#dcefe9}
+.chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.chip{font-size:15px;border:1.5px solid #0c6b5a;color:#0c6b5a;border-radius:99px;padding:4px 12px;background:#fff}
+.bar{position:absolute;left:0;right:0;bottom:0;height:10px;background:#0c6b5a}
+</style></head><body>
+<div class="wrap"><div>
+<div class="brand"><svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0c6b5a"/><path d="M26 12h12v14h14v12H38v14H26V38H12V26h14z" fill="#fff"/><circle cx="47" cy="47" r="10" fill="#4fc2a8" stroke="#0c6b5a" stroke-width="3"/><path d="M42.5 47.5l3 3 6-6.5" fill="none" stroke="#0c6b5a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Polisvergelijker</span><em>2027</em></div>
+<h1>Vergelijk aanvullende zorgverzekeringen op wat jij nodig hebt</h1>
+<p>Per behandeling uit de polisvoorwaarden van 21 verzekeraars, met bron en totaalprijs.</p>
+</div>
+<div class="card"><h3>Jouw zorg in 2027</h3>
+<div class="chips"><span class="chip">Fysiotherapie · 9×</span><span class="chip">Podotherapie</span><span class="chip">Osteopaat</span></div>
+<div style="height:16px"></div>
+<div class="row best"><span class="n">1</span><b>Pakket A</b><span class="p">€ 191 p/m</span></div>
+<div class="row"><span class="n">2</span><b>Pakket B</b><span class="p">€ 199 p/m</span></div>
+<div class="row"><span class="n">3</span><b>Pakket C</b><span class="p">€ 202 p/m</span></div>
+</div></div><div class="bar"></div></body></html>
