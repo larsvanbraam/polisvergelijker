@@ -151,6 +151,9 @@ function lookupNote(k: string): string {
   );
 }
 
+/** Whether the insurers without a contract are shown; the list is folded by default. */
+let showRest = false;
+
 /** Table to record, per concern, whether the user's own provider has a contract. */
 export function renderCtr(): void {
   const box = $('#plan-ctr');
@@ -174,9 +177,17 @@ export function renderCtr(): void {
     })
     .join('')}
   <table><thead><tr><th>Verzekeraar</th>${needs.map((n) => `<th data-short="${esc(n.label.split(' (')[0])}">${esc(n.label.split(' (')[0])}: ${esc(S.providers[n.id])} <button class="cp" data-cp="${esc(S.providers[n.id])}">kopieer</button></th>`).join('')}</tr></thead><tbody>`;
-  for (const g of groups) {
+  // Insurers with a contract (for most providers first) on top; the rest folded. With no contract known yet, show everything.
+  const score = (g: { group: string }): number =>
+    needs.filter((n) => S.contracts[n.id + '|' + g.group] === 'yes').length;
+  const sorted = [...groups].sort((a, b) => score(b) - score(a));
+  const withContract = sorted.filter((g) => score(g) > 0).length;
+  const fold = withContract > 0 && withContract < sorted.length;
+  for (const [i, g] of sorted.entries()) {
+    if (fold && i === withContract)
+      h += `<tr class="rest-toggle"><td colspan="${needs.length + 1}"><button class="cp" data-rest aria-expanded="${showRest}">${showRest ? '▾ Verberg' : '▸ Toon'} ${sorted.length - withContract} overige verzekeraars (geen contract of nog niet gecheckt)</button></td></tr>`;
     h +=
-      `<tr><td><b>${esc(g.group)}</b><div class="small">${g.labels.map((l) => (FINDER_URL[l] ? `<a href="${esc(FINDER_URL[l])}" target="_blank" rel="noopener">${esc(l)} ↗</a>` : esc(l))).join(' · ')}</div></td>` +
+      `<tr${fold && i >= withContract && !showRest ? ' class="rest-hide"' : ''}><td><b>${esc(g.group)}</b><div class="small">${g.labels.map((l) => (FINDER_URL[l] ? `<a href="${esc(FINDER_URL[l])}" target="_blank" rel="noopener">${esc(l)} ↗</a>` : esc(l))).join(' · ')}</div></td>` +
       needs
         .map((n) => {
           const k = n.id + '|' + g.group,
@@ -211,6 +222,11 @@ export function renderCtr(): void {
     renderPlanResult();
   };
   box.onclick = (e) => {
+    if ((e.target as HTMLElement).closest('[data-rest]')) {
+      showRest = !showRest;
+      renderCtr();
+      return;
+    }
     const c = (e.target as HTMLElement).closest<HTMLElement>('[data-cp]');
     if (!c) return;
     navigator.clipboard

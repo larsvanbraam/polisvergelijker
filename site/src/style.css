@@ -690,6 +690,13 @@ sup.fn a {
 .lookup .muted {
   color: var(--muted);
 }
+.ctr tr.rest-hide {
+  display: none !important;
+}
+.ctr tr.rest-toggle td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .ctr h3 {
   margin: 0 0 4px;
   font-size: 15px;
