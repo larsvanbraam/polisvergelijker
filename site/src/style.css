@@ -687,10 +687,6 @@ sup.fn a {
   background: var(--warn-soft);
   color: var(--warn);
 }
-.ctr-line {
-  margin-top: 3px;
-}
-.ctr-line .muted,
 .lookup .muted {
   color: var(--muted);
 }
@@ -1156,4 +1152,27 @@ a.site {
   * {
     transition: none !important;
   }
+}
+
+.ctr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  margin-top: 6px;
+}
+.ctr-chip {
+  display: inline-block;
+  padding: 1px 9px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  background: var(--line);
+  color: var(--muted);
+}
+.ctr-chip.yes {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.ctr-chip.no {
+  background: var(--warn-soft);
+  color: var(--warn);
 }
