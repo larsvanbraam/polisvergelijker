@@ -1,33 +1,43 @@
+"""Split a pdftotext -layout export of policy conditions into articles and read the
+coverage per package from each article.
+
+usage: python3 articles.py conditions.txt "Package A,Package B" > out.json
+env:   ARTICLE_RE  regex for an article heading (groups: number, title)
+       PROVIDER_RE regex for the line after which the qualifying providers are described
+       SUFFIX      comma-separated words that extend stacked column headers (e.g. "Regio,Compact")
+The regexes match the Dutch wording of the source documents.
+"""
 import re,sys,json
 STOP=re.compile(r'^\s*(Let op|Dit krijgt u niet|Hier kunt u|Toestemming|Welk middel|Verwijzing|Wat moet u|Goed om te weten|Wanneer|Voorwaarden voor|U heeft geen recht|Dit valt er niet|Wat wij \(volgens|Aanvullend\s+Dekking)')
 import os
-ART=re.compile(os.environ.get('ART',r'^\s*Artikel\s+(\d+[a-z]?)\.?\s+(\S.*?)\s*$'))
-HIER=os.environ.get('HIER',r'^\s*Hier kunt u terecht')
+ARTICLE=re.compile(os.environ.get('ARTICLE_RE',r'^\s*Artikel\s+(\d+[a-z]?)\.?\s+(\S.*?)\s*$'))
+PROVIDER_RE=os.environ.get('PROVIDER_RE',r'^\s*Hier kunt u terecht')
 def articles(txt):
     arts=[];cur=None;page=1
     for line in txt.split('\n'):
         page+=line.count('\f');line=line.replace('\f','')
-        m=ART.match(line)
+        m=ARTICLE.match(line)
         if m and not re.search(r'(\.{4,}|\s\d+\s*$)',line):
-            g=[x for x in m.groups() if x is not None];cur={'nr':g[0],'titel':g[-1].strip(),'lines':[],'page':page};arts.append(cur);continue
+            g=[x for x in m.groups() if x is not None];cur={'nr':g[0],'title':g[-1].strip(),'lines':[],'page':page};arts.append(cur);continue
         if cur is not None: cur['lines'].append(line)
     return arts
 def clean(s): return re.sub(r'\s+',' ',s).strip()
-def find_pk(line,pks):
+def find_packages(line,packages):
     pos=[];taken=set()
-    for p in sorted(pks,key=len,reverse=True):
+    for p in sorted(packages,key=len,reverse=True):
         for m in re.finditer(r'(?<![\w-])'+re.escape(p)+r'(?![\w-])',line):
             if any(i in taken for i in range(m.start(),m.end())): continue
             taken.update(range(m.start(),m.end())); pos.append((m.start(),p))
     return sorted(pos)
 def parse_values(lines,pks):
+    """Coverage per package from an article body (column tables or one row per package)."""
     vals={};i=0
     while i<len(lines):
-        l=lines[i];pos=find_pk(l,pks)
+        l=lines[i];pos=find_packages(l,pks)
         if len(pos)>=2 and len(clean(re.sub('|'.join(map(re.escape,pks)),'',l)))<5:  # column header
             starts=[p for p,_ in pos];groups=[[n] for _,n in pos]
             j=i+1
-            # extra kopregels met pakketnamen (gestapelde kolomkoppen)
+            # extra header lines with package names (stacked column headers)
             while j<len(lines):
                 L=lines[j]
                 if not L.strip(): j+=1;continue
@@ -44,7 +54,7 @@ def parse_values(lines,pks):
             col={n:'' for n in names};blank=0
             while j<len(lines):
                 L=lines[j]
-                if STOP.match(L) or ART.match(L) or find_pk(L,pks) and len(find_pk(L,pks))>=2: break
+                if STOP.match(L) or ARTICLE.match(L) or find_packages(L,pks) and len(find_packages(L,pks))>=2: break
                 if not L.strip():
                     blank+=1
                     if blank>=2: break
@@ -65,15 +75,16 @@ def parse_values(lines,pks):
             n=pos[0][1];rest=l[pos[0][0]+len(n):]
             if rest.strip():
                 v=rest;ind=len(l)-len(rest.lstrip());j=i+1
-                while j<len(lines) and lines[j].strip() and not STOP.match(lines[j]) and not find_pk(lines[j][:15],pks) and (len(lines[j])-len(lines[j].lstrip()))>=ind-3:
+                while j<len(lines) and lines[j].strip() and not STOP.match(lines[j]) and not find_packages(lines[j][:15],pks) and (len(lines[j])-len(lines[j].lstrip()))>=ind-3:
                     v+=' '+lines[j];j+=1
                 vals[n]=(vals[n]+'; '+clean(v)) if n in vals else clean(v); i=j;continue
         i+=1
     return vals
-def hier(lines):
+def provider_text(lines):
+    """Text after the 'where can you go' marker: which providers qualify."""
     out=[];on=False
     for l in lines:
-        if re.match(HIER,l): on=True;continue
+        if re.match(PROVIDER_RE,l): on=True;continue
         if on:
             if STOP.match(l) or (not l.strip() and out and len(' '.join(out))>250): break
             if re.search(r'Verzekeringsvoorwaarden|^\s*\d+\s*$',l): continue
@@ -84,5 +95,5 @@ if __name__=='__main__':
     res=[]
     for a in articles(txt):
         v=parse_values(a['lines'],pks)
-        if v: res.append({'nr':a['nr'],'titel':a['titel'],'vals':v,'zv':hier(a['lines']),'page':a['page']})
+        if v: res.append({'nr':a['nr'],'title':a['title'],'vals':v,'provider':provider_text(a['lines']),'page':a['page']})
     json.dump(res,sys.stdout,ensure_ascii=False,indent=0)

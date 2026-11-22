@@ -1,7 +1,7 @@
-// Gedeelde helper voor "z-zoeker"-zorgzoekers (Menzis, Salland/ENO, ONVZ).
-// Twee varianten van dezelfde software:
+// Shared helper for "z-zoeker" provider finders (Menzis, Salland/ENO, ONVZ).
+// Two variants of the same software:
 //  - classic (Nuxt 2): Menzis + Salland. POST <host>/api/zadvies/<afnemer>/zorginkoop/zorgaanbieders
-//  - nuxt3: ONVZ. GET <host>/api/zoektermen + /api/zorgaanbieders (contractantCode verplicht)
+//  - nuxt3: ONVZ. GET <host>/api/zoektermen + /api/zorgaanbieders (contractantCode required)
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const PC=/^\d{4}\s?[A-Za-z]{2}$/;
 const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g," ").trim();
@@ -11,14 +11,14 @@ async function jget(url,opt={}){
   if(!r.ok)throw new Error("HTTP "+r.status+" "+url.split("?")[0]);
   return r.json();
 }
-// Zoekvarianten voor een naam: volledig, daarna steeds minder woorden (de zoekterm-API matcht op woordprefixen).
+// Search variants for a name: full, then fewer and fewer words (the search-term API matches word prefixes).
 function variants(naam){
   const w=String(naam||"").trim().split(/\s+/).filter(Boolean);const out=[];
   for(let n=w.length;n>=1&&out.length<3;n--)out.push(w.slice(0,n).join(" "));
   const longest=[...w].sort((a,b)=>b.length-a.length)[0];if(longest&&!out.includes(longest))out.push(longest);
   return out;
 }
-// Houd namen waarvan alle woorden uit de zoekopdracht voorkomen vooraan.
+// Keep names that contain all words of the query first.
 function rank(matches,naam){
   const q=norm(naam).split(" ").filter(Boolean);
   const score=m=>q.filter(t=>norm(m.naam).includes(t)).length;
@@ -86,7 +86,7 @@ function makeClassic(cfg){ // {host, afnemer, pakketId, pakketLijst, jaar}
 function makeNuxt3(cfg){ // {host, contractant}
   return wrap(async({naam,postcode,soort})=>{
     const p=String(postcode||"").trim();
-    // 1) naam -> zoektermcodes (zorgaanbieder/vestiging)
+    // 1) name -> search-term codes (provider/location)
     let codes=[];
     for(const v of variants(naam)){
       const z=await jget(`${cfg.host}/api/zoektermen?zoekterm=${encodeURIComponent(v)}&aantal=30&taal=NL`);
@@ -96,7 +96,7 @@ function makeNuxt3(cfg){ // {host, contractant}
       if(codes.length)break;
     }
     if(!codes.length)return{status:"ok",matches:[]};
-    // 2) per code de aanbieders ophalen (geen afstand -> alle vestigingen), daarna op plaats/postcode filteren
+    // 2) fetch providers per code (no distance -> all locations), then filter on place/postcode
     const seen=new Map();
     for(const code of codes.slice(0,6)){
       const d=await jget(`${cfg.host}/api/zorgaanbieders?zoektermCode=${encodeURIComponent(code)}&afstand=-1&sortering=AFSTAND&offset=0&contractantCode=${cfg.contractant}`);
@@ -106,7 +106,7 @@ function makeNuxt3(cfg){ // {host, contractant}
     let buiten=false;
     if(p){
       let plaats=p;
-      if(PC.test(p)){ // postcode -> plaatsnaam
+      if(PC.test(p)){ // postcode -> place name
         try{const l=await jget(`${cfg.host}/api/locaties?zoekterm=${encodeURIComponent(p.replace(/\s/g,""))}&taal=NL`);
           if(l&&l[0])plaats=l[0].plaatsnaam}catch(e){}
       }

@@ -1,6 +1,6 @@
 // GET /api/contract?naam=Fysio+Jansen&postcode=3511AB&soort=fysiotherapie[&concerns=CZ+groep,VGZ]
-// Vraagt per concern de zorgzoeker of de zorgverlener een contract heeft en geeft alles in één antwoord terug.
-// Vaste require-paden, zodat Vercel de adapters in de functie opneemt (alleen api/*.js zijn functies).
+// Asks each concern's provider finder whether the provider has a contract and returns everything in one response.
+// Static require paths so Vercel bundles the adapters into the function (only api/*.js are functions).
 const CONCERN = { cz: "CZ groep", vgz: "VGZ", achmea: "Achmea", menzis: "Menzis", onvz: "ONVZ", eno: "ENO", dsw: "DSW", asr: "a.s.r.", zorgenzekerheid: "Zorg en Zekerheid", eucare: "Eucare" };
 const loaders = {
   cz: () => require("../lib/adapters/cz.js"), vgz: () => require("../lib/adapters/vgz.js"), achmea: () => require("../lib/adapters/achmea.js"),
@@ -10,7 +10,7 @@ const loaders = {
 };
 const adapters = [];
 for (const [n, load] of Object.entries(loaders)) {
-  try { adapters.push({ ...load(), concern: CONCERN[n] }); } catch (e) { /* adapter niet beschikbaar */ }
+  try { adapters.push({ ...load(), concern: CONCERN[n] }); } catch (e) { /* adapter not available */ }
 }
 
 const clean = (s, max) => String(s || "").replace(/[\u0000-\u001f<>]/g, " ").trim().slice(0, max);
@@ -26,9 +26,9 @@ module.exports = async (req, res) => {
   const todo = adapters.filter(a => !only || only.has(a.concern));
   const results = await Promise.all(todo.map(async a => {
     const call = async (nm, sd) => { try { return await a.check({ naam: nm, postcode, soort: sd }); } catch (e) { return { status: "error", reden: String(e && e.message || e) }; } };
-    // 1. Elke zorgzoeker kent eigen zorgsoort-namen: probeer ze op volgorde tot een zoeker de zorgsoort kent.
+    // 1. Every finder has its own care-type names: try them in order until the finder knows one.
     let r = null;
-    // (Ook bij 0 treffers: een andere zorgsoort kan de praktijk wel kennen. Maximaal ~6 s per verzekeraar.)
+    // (Also on 0 hits: another care type may still know the practice. At most ~6 s per insurer.)
     const t0 = Date.now(); let beste = null;
     for (const sd of soorten) {
       const x = await call(naam, sd);
@@ -37,9 +37,9 @@ module.exports = async (req, res) => {
       if (Date.now() - t0 > 6000) break;
     }
     r = beste;
-    // 2. Kent de zoeker geen van de zorgsoorten: zoek op alleen naam + plaats.
+    // 2. If the finder knows none of the care types: search on name + place only.
     if (r.status !== "ok") { const x = await call(naam, ""); if (x.status === "ok") r = x; }
-    // 3. Geen treffers? Eén keer met een kortere naam (zonder tussenwoorden), want sommige zoekers matchen op een deel van de naam.
+    // 3. No hits? Retry once with a shorter name (without filler words); some finders match on part of the name.
     if (r.status === "ok" && !(r.matches && r.matches.length)) {
       const stop = new Set(["voor", "van", "de", "het", "en", "bv", "b.v."]);
       const kort = naam.split(/\s+/).filter(x => x && !stop.has(x.toLowerCase())).join(" ");

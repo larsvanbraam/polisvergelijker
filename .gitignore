@@ -1,11 +1,11 @@
-# Brondocumenten van verzekeraars: niet herpubliceren, opnieuw ophalen met ./download.sh
+# Insurers' source documents: do not republish, fetch again with ./download.sh
 pdfs/
 
-# Vercel-koppeling (lokaal)
+# Vercel link (local)
 .vercel/
 site/.vercel/
 
-# Lokale tooling en rommel
+# Local tooling and clutter
 .claude/settings.local.json
 .claude/skills/
 .agents/

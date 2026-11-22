@@ -1,6 +1,10 @@
+"""Read the "Wat is verzekerd" section of insurance product information cards (zorgverzekeringskaart PDFs).
+
+usage: python3 summary_card.py a.pdf,b.pdf "Package A,Package B" > out.json
+"""
 import pdfplumber,re,sys,json
 out=[]
-for path,pk in zip(sys.argv[1].split(','),sys.argv[2].split(',')):
+for path,package in zip(sys.argv[1].split(','),sys.argv[2].split(',')):
     items=[];cur=None
     with pdfplumber.open(path) as pdf:
         for pi,page in enumerate(pdf.pages):
@@ -15,7 +19,7 @@ for path,pk in zip(sys.argv[1].split(','),sys.argv[2].split(',')):
                 bullet=s[0] in '•'
                 s=s.lstrip('• ').strip()
                 if not bullet and len(s)<45 and s[0].isupper() and not s.endswith(('.',',')) and not re.search(r'\d',s):
-                    cur={'titel':s,'tekst':'','page':pi+1};items.append(cur)
-                elif cur: cur['tekst']=(cur['tekst']+' '+s).strip()
-    out.append({'pakket':pk,'items':items})
+                    cur={'title':s,'text':'','page':pi+1};items.append(cur)
+                elif cur: cur['text']=(cur['text']+' '+s).strip()
+    out.append({'package':package,'items':items})
 json.dump(out,sys.stdout,ensure_ascii=False)

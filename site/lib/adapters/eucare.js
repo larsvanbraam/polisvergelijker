@@ -1,5 +1,5 @@
-// Eucare / Aevitae: zorgzoeker is een embed (iframe) van https://zorgzoeker.caresq.nl (Faceit-app), API: /api/v4/search
-// Let op: zonder uzovi-parameter is het de generieke Eucare-zoeker (Aevitae-iframe gebruikt ook geen uzovi).
+// Eucare / Aevitae: the provider finder is an embed (iframe) of https://zorgzoeker.caresq.nl (Faceit app), API: /api/v4/search
+// Note: without the uzovi parameter this is the generic Eucare finder (the Aevitae iframe does not pass uzovi either).
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const B="https://zorgzoeker.caresq.nl";
 const norm=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
@@ -10,12 +10,12 @@ async function kwalificatie(soort){
   const s=norm(soort),l=kw.d;
   return l.find(k=>norm(k.naam)===s&&!k.alias)||l.find(k=>norm(k.naam)===s)||l.find(k=>norm(k.naam).includes(s))||null;
 }
-function doeljaar(d=new Date()){const m=d.getMonth();return(m===10&&d.getDate()>=12)||m>10?d.getFullYear()+1:d.getFullYear()} // zoals de app zelf
+function doeljaar(d=new Date()){const m=d.getMonth();return(m===10&&d.getDate()>=12)||m>10?d.getFullYear()+1:d.getFullYear()} // same rule as the app
 async function check({naam,postcode,soort="fysiotherapie"}){
   try{
     const k=await kwalificatie(soort);
     if(!k)return{status:"error",reden:`zorgsoort '${soort}' niet gevonden in Eucare-zorgzoeker`};
-    let id=k.id.padStart(8,"0");if(id.endsWith("0000"))id=id.slice(0,4)+"????"; // hoofdgroep incl. subkwalificaties, zoals de app
+    let id=k.id.padStart(8,"0");if(id.endsWith("0000"))id=id.slice(0,4)+"????"; // main group incl. sub-qualifications, like the app
     const pc=String(postcode||"").trim();
     const loc=/^[1-9]\d{3} ?(?!sa|sd|ss)[a-z]{2}$/i.test(pc)||/^[1-9]\d{3}$/.test(pc)?"postcode="+pc.replace(" ",""):"plaats="+encodeURIComponent(pc);
     const jaar=doeljaar();

@@ -1,6 +1,6 @@
-// Achmea groep: Zilveren Kruis, Interpolis, FBTO, De Friesland (zelfde Sitecore-zorgzoeker-backend)
-// Flow (zoals de zorgzoeker-pagina zelf): GET pagina -> cookie + __RequestVerificationToken (CSRF),
-// daarna JSON-POSTs naar /clientcontroller/zorgzoekerclient/{getautofillzorgtype,getautofilllocatie,getautofillzorginstelling,getzorgaanbieders}.
+// Achmea group: Zilveren Kruis, Interpolis, FBTO, De Friesland (same Sitecore provider-finder backend)
+// Flow (as the finder page itself): GET page -> cookie + __RequestVerificationToken (CSRF),
+// then JSON POSTs to /clientcontroller/zorgzoekerclient/{getautofillzorgtype,getautofilllocatie,getautofillzorginstelling,getzorgaanbieders}.
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const BASE="https://www.zilverenkruis.nl";
 const PAGE=BASE+"/consumenten/zorgzoeker";
@@ -28,7 +28,7 @@ async function post(s,ep,body){
 function contractVan(res){
   const cs=(res.Contracten||[]).filter(c=>c&&c.StatusOmschrijving);
   if(!cs.length)return{contract:"onbekend",tekst:"Geen contractinformatie"};
-  // beste status wint: ja > gesprek > nee
+  // best status wins: ja > gesprek > nee
   const kl=c=>{const t=c.StatusOmschrijving;
     if(/^Contract\b/i.test(t))return"ja";
     if(/nog geen|onderhandel|gesprek/i.test(t))return"gesprek";
@@ -45,7 +45,7 @@ async function check({naam,postcode,soort="fysiotherapie"}){
     const s=await session();
     const zt=await post(s,"getautofillzorgtype",{ZoekstringZorgtype:soort});
     const opts=zt.options||[];
-    // Eén zoekterm kan meerdere zorgtypen opleveren (bv. psychotherapie: KPT én IPT): doorzoek ze allemaal en voeg samen.
+    // One search term can match several care types (e.g. psychotherapy: KPT and IPT): search all and merge.
     const exact=opts.filter(o=>norm(o.value)===norm(soort));
     const zs=(exact.length?exact:opts).slice(0,6);
     if(!zs.length)return{status:"error",reden:`zorgtype '${soort}' niet gevonden in zorgzoeker`};

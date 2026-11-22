@@ -1,34 +1,51 @@
 # Polisvergelijker
 
-Vergelijk Nederlandse aanvullende zorgverzekeringen voor 2027 op de details: welke behandeling, hoeveel, bij welke zorgverlener en waar het in de polis staat. Elke waarde heeft een voetnoot naar het brondocument en de pagina.
+Compare Dutch supplementary health insurance packages for 2027 in detail: which treatment is covered, how much, by which providers, and where it is stated in the policy. Every value has a footnote pointing to the source document and page.
 
 Live: https://zorgverzekering.larsvanbraam.nl
 
-## Hoe het werkt
+The site itself is in Dutch, as are the extracted policy texts. Code, comments and docs are in English.
 
-1. `download.sh` haalt de polisvoorwaarden en vergoedingenoverzichten op (lijst in `urls.txt`) naar `pdfs/`.
-2. De scripts in `scripts/extract/` lezen die PDF's uit (`pdftotext -layout` / pdfplumber) naar `data/*.psv` en `data/*.mpsv`.
-3. `build.py` combineert alles met `data/basis.json` (basispolissen en premies) tot `site/data.json`.
-4. `site/` is de website: `index.html` (alles in één bestand) en `data.json`, plus `api/contract.js` voor het opzoeken van contracten bij zorgzoekers.
+## How it works
 
-## Data-formaten
+1. `download.sh` fetches the policy conditions and coverage overviews listed in `urls.txt` into `pdfs/` (not committed).
+2. The scripts in `scripts/extract/` read those PDFs (`pdftotext -layout` / pdfplumber) into `data/*.psv` and `data/*.mpsv`.
+3. `build.py` combines them with `data/base.json` (base policies, premiums, out-of-network reimbursement) into `site/data.json`.
+4. `site/` is the website: `index.html` (single file) and `data.json`, plus `api/contract.js`, a serverless function that asks the insurers' provider finders whether a provider has a contract.
 
-- `*.psv`: één pakket per bestand. Kopregel `#label=..|concern=..|pakket=..|premie=..|bron=..`, daarna `rubriek|vergoeding|zorgverlener|voorwaarden|ref`.
-- `*.mpsv`: meerdere pakketten. Kopregel met `pakketten=Naam:premie,Naam:premie`, daarna `rubriek|waarde pakket 1|…|zorgverlener|voorwaarden|ref`.
-- Een regel die met `!` begint is gemarkeerd als *controleren*.
-- `ref` bevat `p. N` voor een link naar de juiste pagina in de PDF.
+## Data formats
 
-## Lokaal draaien
+- `*.psv`: one package per file. Header `#label=..|concern=..|package=..|premium=..|source=..`, then rows `heading|coverage|provider|conditions|ref`.
+- `*.mpsv`: several packages. Header with `packages=Name:premium,Name:premium` (plus `source`, `policy`), then rows `heading|coverage package 1|…|provider|conditions|ref`.
+- Optional header key `module` marks modular insurers (FBTO): packages with the same module are alternatives, different modules can be combined.
+- A row starting with `!` is flagged as *needs check* (the source table was ambiguous).
+- `ref` contains `p. N` to link to the right page of the PDF.
+- `data/base.json`: per label the base policies (`name`, `type`, `free_choice`, `p400`/`p900` premiums for each deductible, compatible `packages`), `out_of_network` reimbursement and sources.
+
+## Extraction scripts
+
+| Script | Input | Output |
+|---|---|---|
+| `articles.py` | conditions with numbered articles | JSON per article, then `json2mpsv.py` |
+| `cz.py` / `cz2psv.py` | CZ-group coverage PDFs | `.psv` |
+| `dsw.py` | DSW / Stad Holland packages | `.psv` |
+| `menzis.py` / `menzis2mpsv.py` | Menzis ExtraVerzorgd tables | `.mpsv` |
+| `matrix.py` | coverage matrix with one column per package | JSON |
+| `summary_card.py` | insurance product information cards | JSON |
+
+Each script has its usage in its docstring.
+
+## Run locally
 
 ```bash
-python3 build.py      # site/data.json opnieuw bouwen
+python3 build.py      # rebuild site/data.json
 node dev.js           # http://localhost:8765
 ```
 
-## Deployen
+## Deploy
 
-Vercel-project `polisvergelijker`, gekoppeld aan deze repo met **Root Directory: `site`**. Elke push naar `main` gaat live; andere branches krijgen een preview-URL. Draai na een datawijziging eerst `python3 build.py`, zodat `site/data.json` mee gaat in de commit.
+Vercel project `polisvergelijker`, connected to this repo with **Root Directory: `site`**. Every push to `main` goes live; other branches get a preview URL. After changing data, run `python3 build.py` first so `site/data.json` is part of the commit.
 
 ## Disclaimer
 
-Persoonlijk hulpmiddel, geen advies. De gegevens zijn automatisch uitgelezen en kunnen fouten bevatten; alleen de documenten van de verzekeraar zijn leidend. De PDF's van verzekeraars staan bewust niet in deze repo.
+Personal tool, not advice. The data was extracted automatically and may contain errors; only the insurers' own documents are binding. The insurers' PDFs are intentionally not part of this repo.

@@ -1,5 +1,5 @@
-// VGZ groep: VGZ, Univé, IZA (zelfde Zorgzoeker-API; label-pad "vgz")
-// Endpoint (publiek, zonder auth): GET https://api.vgz.nl/zorgzoeker/api/v2/zorgaanbieder/zoekopnaam/vgz/<jaar>/<naam>
+// VGZ group: VGZ, Univé, IZA (same finder API; label path "vgz")
+// Endpoint (public, no auth): GET https://api.vgz.nl/zorgzoeker/api/v2/zorgaanbieder/zoekopnaam/vgz/<jaar>/<naam>
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const BASE="https://api.vgz.nl/zorgzoeker/api/v2/zorgaanbieder/zoekopnaam/vgz";
 const strip=s=>String(s||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();

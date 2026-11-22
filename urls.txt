@@ -1,4 +1,4 @@
-# label|bestandsnaam|url   (regels met # worden overgeslagen)
+# label|filename|url   (lines starting with # are skipped)
 DSW|dsw-av-compact-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Compact-2027-DSW.pdf
 DSW|dsw-av-standaard-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Standaard-2027-DSW.pdf
 DSW|dsw-av-top-2027.pdf|https://www.dsw.nl/consumenten/-/media/Documenten/DSW/2027/AV-Top-2027-DSW.pdf

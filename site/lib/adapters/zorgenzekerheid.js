@@ -1,5 +1,5 @@
-// Zorg en Zekerheid: server-gerenderde Java-app op https://service.zorgenzekerheid.nl/zorgzoeker
-// Vereist sessiecookie (GET home.html) + lat/long; de site geocodeert zelf via Google Maps, wij gebruiken PDOK Locatieserver (gratis, geen sleutel).
+// Zorg en Zekerheid: server-rendered Java app at https://service.zorgenzekerheid.nl/zorgzoeker
+// Needs a session cookie (GET home.html) + lat/long; the site geocodes via Google Maps, we use the PDOK Locatieserver (free, no key).
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const B="https://service.zorgenzekerheid.nl/zorgzoeker";
 const sig=()=>AbortSignal.timeout(8000);
@@ -43,7 +43,7 @@ async function check({naam,postcode,soort="fysiotherapie"}){
       const jaren=[];const re=/<p>([\s\S]*?)<\/p>[\s\S]*?gecontracteerd__jaar">(\d{4})</g;let m;
       while((m=re.exec(row)))jaren.push({jaar:+m[2],tekst:dec(m[1])});
       if(!jaren.length)continue;
-      const mx=Math.max(...jaren.map(j=>j.jaar));const last=jaren.find(j=>j.jaar===mx); // nieuwste jaar, eerste vermelding
+      const mx=Math.max(...jaren.map(j=>j.jaar));const last=jaren.find(j=>j.jaar===mx); // newest year, first entry
       const uniek=[...new Set(jaren.map(j=>`${j.jaar}: ${j.tekst}`))];
       matches.push({naam:dec(nm[1]),adres:lines.slice(0,2).join(", "),contract:STAT(last.tekst),
         tekst:uniek.join(" | ")+(afst?` (${dec(afst[1])})`:"")});

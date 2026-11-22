@@ -1,11 +1,15 @@
+"""Convert the JSON from menzis.py to data/menzis.mpsv (premiums per package are listed below).
+
+usage: python3 menzis2mpsv.py menzis.json > data/menzis.mpsv
+"""
 import json,re,sys
 d=json.load(open(sys.argv[1]))
 order=[('ExtraVerzorgd 1','8.60'),('ExtraVerzorgd 2','25.00'),('ExtraVerzorgd 3','45.80'),('JongerenVerzorgd','21.15')]
-bron="https://voorwaarden.menzis.nl/verzekeringsvoorwaarden-menzisbasis-extraverzorgd-tandverzorgd-2027.pdf"
-print(f"#label=Menzis|concern=Menzis|bron={bron}|polis={bron}|pakketten="+','.join(f"{n}:{p}" for n,p in order))
+source="https://voorwaarden.menzis.nl/verzekeringsvoorwaarden-menzisbasis-extraverzorgd-tandverzorgd-2027.pdf"
+print(f"#label=Menzis|concern=Menzis|source={source}|policy={source}|packages="+','.join(f"{n}:{p}" for n,p in order))
 seen={}
 for a in d:
-    t=a['titel'];pre=a['pre']
+    t=a['title'];pre=a['pre']
     if t=='Let op': t='Fysiotherapie bij specifieke aandoening (bijlage 1)'
     if t in seen: seen[t]+=1; t=f"{t} ({'patiënt' if seen[t]==2 else seen[t]})"
     else: seen[t]=1
@@ -25,5 +29,5 @@ for a in d:
     vals=[conv(a['vals'].get(n,'—')) for n,_ in order]
     if t=='Alternatieve zorg': vals=[v if v=='—' else v+' (max. € 40 per behandeldag)' for v in vals]
     if all(v=='—' for v in vals): continue
-    zv=re.sub(r'\s+',' ',a['zv']).replace('|','/')[:240]
-    print('|'.join([t]+vals+[zv,'',f"p. {a['page']}"]))
+    prov=re.sub(r'\s+',' ',a['provider']).replace('|','/')[:240]
+    print('|'.join([t]+vals+[prov,'',f"p. {a['page']}"]))

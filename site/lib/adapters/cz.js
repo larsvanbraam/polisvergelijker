@@ -1,4 +1,4 @@
-// CZ groep: CZ, CZdirect, OHRA, Nationale-Nederlanden, Just
+// CZ group: CZ, CZdirect, OHRA, Nationale-Nederlanden, Just
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
 const strip=h=>h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g," ").replace(/<[^>]+>/g," ").replace(/&amp;/g,"&").replace(/\s+/g," ");
 async function check({naam,postcode,soort="fysiotherapie"}){

@@ -1,5 +1,7 @@
+"""Parse CZ-group (CZ, CZdirect, OHRA, NN, Just) coverage PDFs with pdfplumber, using the three-column layout."""
 import pdfplumber,re,sys,json
 def parse(path):
+    """Rows from a CZ-group coverage overview. Keys: h=section heading, r=row name, v=coverage, k=conditions."""
     rows=[];cur=None;heading=None;b1=b2=None
     with pdfplumber.open(path) as pdf:
         for page in pdf.pages:

@@ -1,8 +1,8 @@
-// Gedeelde helper voor het "pw-zorgzoeker" platform (Angular-app + content-BFF) dat zowel DSW/Stad Holland
-// (www.dsw.nl, BFF https://content.dsw.nl/api) als a.s.r./VvAA (zorgzoeker.asr.nl, BFF https://content.zorgzoeker.asr.nl/api) gebruikt.
-// Endpoints (zonder login/captcha): GET v1/Zorgzoeker/GetZorgsoorten, POST v1/Zorgzoeker/FindZorgpartijen.
+// Shared helper for the "pw-zorgzoeker" platform (Angular app + content BFF) used by both DSW/Stad Holland
+// (www.dsw.nl, BFF https://content.dsw.nl/api) and a.s.r./VvAA (zorgzoeker.asr.nl, BFF https://content.zorgzoeker.asr.nl/api).
+// Endpoints (no login/captcha): GET v1/Zorgzoeker/GetZorgsoorten, POST v1/Zorgzoeker/FindZorgpartijen.
 const UA="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120 Safari/537.36";
-const STATUS={ // statusCode uit de app-bundle (StatusService.getContractStatus)
+const STATUS={ // statusCode from the app bundle (StatusService.getContractStatus)
   2:["ja","Contract: vergoed"],
   1:["nee","Geen contract: een deel niet vergoed"],
   3:["gesprek","Nog geen contract: een deel niet vergoed"],
@@ -28,7 +28,7 @@ function kies(lijst,soort){
 async function check({api,origin,label},{naam,postcode,soort="fysiotherapie"}){
   try{
     const lijst=await zorgsoorten(api,origin);
-    // Lege zorgsoort = zoeken op alleen naam + plaats (zoals de zorgzoeker zelf zonder zorgsoort doet)
+    // Empty care type = search on name + place only (as the finder itself does without a care type)
     const z=soort?kies(lijst,soort):{years:lijst.flatMap(x=>x.years||[]),subZorgsoortCode:null};
     if(!z)return{status:"error",reden:`zorgsoort '${soort}' niet gevonden bij ${label}`};
     const jaren=z.years&&z.years.length?z.years:[new Date().getFullYear()];
