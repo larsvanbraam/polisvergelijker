@@ -1,3 +1,4 @@
+import { inject } from '@vercel/analytics';
 import './style.css';
 import { loadData, P, R, setData } from './data';
 import { initFilters, route } from './filters';
@@ -6,6 +7,8 @@ import { S } from './state';
 import { initTheme } from './theme';
 
 initTheme();
+// Vercel Web Analytics: cookieless page views; only reports from the deployed site.
+inject();
 
 loadData()
   .then((d) => {
