@@ -37,8 +37,8 @@ export const S = {
   providers: {} as Record<string, string>,
   /** Contract state per "<need id>|<concern group>". */
   contracts: {} as Record<string, ContractState>,
-  /** Postcode or place of the own providers, for the automatic contract lookup. */
-  place: '',
+  /** Postcode or place of the own provider per need id, for the automatic contract lookup. */
+  places: {} as Record<string, string>,
   s1done: false,
   s2done: false,
   showBase: false,
@@ -48,7 +48,7 @@ try {
   const o = JSON.parse(localStorage.getItem('pv-contracts') || '{}');
   S.providers = o.providers || {};
   S.contracts = o.contracts || {};
-  S.place = o.place || '';
+  S.places = o.places || {};
 } catch {
   // storage unavailable
 }
@@ -57,7 +57,7 @@ export function saveCtr(): void {
   try {
     localStorage.setItem(
       'pv-contracts',
-      JSON.stringify({ providers: S.providers, contracts: S.contracts, place: S.place }),
+      JSON.stringify({ providers: S.providers, contracts: S.contracts, places: S.places }),
     );
   } catch {
     // storage unavailable

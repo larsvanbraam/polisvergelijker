@@ -1,11 +1,11 @@
 import { cardify } from './cards';
-import { CTR_GROUPS, FINDER_URL } from './concerns';
+import { CTR_GROUPS, FINDER_CONCERN, FINDER_URL } from './concerns';
 import { activePackages } from './data';
 import { $, esc } from './format';
 import { needDef } from './needlist';
 import { renderPlanResult } from './plan';
 import { S, saveCtr } from './state';
-import type { ContractResponse, ContractStatus, FinderResult } from '../lib/finders/types';
+import type { ContractResponse, ContractStatus, FinderMatch, FinderResult } from '../lib/finders/types';
 import type { ContractState, Need } from './types';
 
 type Lookup =
@@ -29,25 +29,39 @@ const CONTRACT_TEXT: Record<ContractStatus, string> = {
   unknown: 'status onbekend',
 };
 
+const finderOf = (group: string): string | null => (group in FINDER_CONCERN ? FINDER_CONCERN[group] : group);
+
 /** Ask the provider finders of all shown concerns at once; fills the dropdowns with what they report. */
 async function lookUp(n: Need, groups: string[]): Promise<void> {
   const name = S.providers[n.id];
-  const place = S.place.trim();
+  const place = (S.places[n.id] || '').trim();
   for (const g of groups) lookups[n.id + '|' + g] = { state: 'busy' };
   renderCtr();
   const q = new URLSearchParams({
     name,
     location: place,
     type: n.finderTypes ?? n.treatment.toLowerCase(),
-    concerns: groups.join(','),
+    concerns: [...new Set(groups.map(finderOf).filter((c): c is string => !!c))].join(','),
   });
   try {
-    const res = await fetch('/api/contract?' + q.toString());
-    const body = (await res.json()) as Partial<ContractResponse> & { error?: string };
-    if (!res.ok || !body.results) throw new Error(body.error || 'HTTP ' + res.status);
+    let body: Partial<ContractResponse> & { error?: string } = { results: [] };
+    if (q.get('concerns')) {
+      const res = await fetch('/api/contract?' + q.toString());
+      body = (await res.json()) as typeof body;
+      if (!res.ok || !body.results) throw new Error(body.error || 'HTTP ' + res.status);
+    }
+    const results = body.results ?? [];
     for (const g of groups) {
-      const result = body.results.find((r) => r.concern === g);
+      const concern = finderOf(g);
+      const result = concern ? results.find((r) => r.concern === concern) : undefined;
       const k = n.id + '|' + g;
+      if (!concern) {
+        lookups[k] = {
+          state: 'done',
+          result: { status: 'unsupported', reason: 'de zorgzoeker van dit label wordt niet doorzocht' },
+        };
+        continue;
+      }
       if (!result) {
         lookups[k] = {
           state: 'done',
@@ -56,7 +70,7 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
         continue;
       }
       lookups[k] = { state: 'done', result };
-      const best = result.status === 'ok' ? result.matches[0] : undefined;
+      const best = result.status === 'ok' ? pickMatch(result.matches, name) : undefined;
       if (best) S.contracts[k] = CONTRACT_STATE[best.contract] ?? '?';
     }
     saveCtr();
@@ -68,20 +82,73 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
   renderPlanResult();
 }
 
+const norm = (t: string): string =>
+  t
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+const FILLER = new Set(['voor', 'van', 'de', 'het', 'en', 'bv', 'b.v.']);
+
+/**
+ * The finders sort on distance, not on name, and match loosely ("Praktijk Oosterhof" also finds
+ * "Huisartsenpraktijk Oosterhof & Vernooij"). Only trust a hit whose name is the searched name,
+ * starts with it or has all its words as whole words, and that is in the given place; take the closest.
+ */
+function pickMatch(matches: FinderMatch[], name: string): FinderMatch | undefined {
+  const q = norm(name)
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+  const tokens = q.split(' ').filter((t) => t.length > 1 && !FILLER.has(t));
+  const rank = (m: FinderMatch): number => {
+    const n = norm(m.name)
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+    if (n === q) return 0;
+    if (n.startsWith(q + ' ')) return 1;
+    const words = new Set(n.split(' '));
+    return tokens.length && tokens.every((t) => words.has(t)) ? 2 : 9;
+  };
+  return matches
+    .filter((m) => rank(m) < 9 && !/niet in opgegeven plaats/i.test(m.text))
+    .sort((a, b) => rank(a) - rank(b))[0];
+}
+
+type Badge = { cls: 'yes' | 'no' | 'unk'; label: string };
+const badge = (b: Badge, detail = '', title = ''): string =>
+  `<div class="lookup small"${title ? ` title="${esc(title)}"` : ''}><span class="badge ${b.cls}">${esc(b.label)}</span>${detail ? ' ' + detail : ''}</div>`;
+
 function lookupNote(k: string): string {
   const l = lookups[k];
   if (!l) return '';
   if (l.state === 'busy') return '<div class="lookup small">Bezig met opzoeken…</div>';
-  if (l.state === 'failed') return `<div class="lookup small warn-t">Opzoeken mislukt: ${esc(l.error)}</div>`;
+  if (l.state === 'failed') return badge({ cls: 'unk', label: '? Opzoeken mislukt' }, esc(l.error));
   const r = l.result;
   if (r.status !== 'ok')
-    return `<div class="lookup small">Niet automatisch te controleren${r.reason ? ': ' + esc(r.reason) : ''}</div>`;
+    return badge(
+      { cls: 'unk', label: '? Zelf checken' },
+      'niet automatisch te controleren' + (r.reason ? ': ' + esc(r.reason) : ''),
+    );
   const m = r.matches;
-  if (!m.length)
-    return '<div class="lookup small">Niet gevonden in de zorgzoeker; controleer de naam of zoek zelf via de link.</div>';
-  const best = m[0];
-  const more = m.length > 1 ? ` <span class="muted">(+${m.length - 1} andere treffers)</span>` : '';
-  return `<div class="lookup small" title="${esc(best.text)}">Zorgzoeker: <b>${esc(best.name)}</b>${best.address ? ', ' + esc(best.address) : ''} – ${esc(CONTRACT_TEXT[best.contract] ?? best.contract)}${more}</div>`;
+  if (!m.length) return badge({ cls: 'unk', label: '? Niet gevonden' }, 'zoek zelf via de link');
+  const best = pickMatch(m, S.providers[k.split('|')[0]] || '');
+  if (!best) {
+    const c = m[0];
+    return badge(
+      { cls: 'unk', label: '? Niet gevonden' },
+      `geen treffer op deze naam, zoek zelf via de link <span class="muted">(dichtstbij: ${esc(c.name)}${c.address ? ', ' + esc(c.address) : ''})</span>`,
+    );
+  }
+  const b: Badge =
+    best.contract === 'yes'
+      ? { cls: 'yes', label: '✓ Contract' }
+      : best.contract === 'no'
+        ? { cls: 'no', label: '✗ Geen contract' }
+        : { cls: 'unk', label: '? ' + (CONTRACT_TEXT[best.contract] ?? best.contract) };
+  return badge(
+    b,
+    `<span class="muted">${esc(best.name)}${best.address ? ', ' + esc(best.address) : ''}</span>`,
+    best.text,
+  );
 }
 
 /** Table to record, per concern, whether the user's own provider has a contract. */
@@ -98,9 +165,14 @@ export function renderCtr(): void {
     (g) => g.labels.length,
   );
   const groupNames = groups.map((g) => g.group);
-  const busy = Object.values(lookups).some((l) => l.state === 'busy');
-  let h = `<div class="ctr"><h3>Heeft jouw zorgverlener een contract?</h3><p class="small">Contracten verschillen per verzekeraar en staan niet in de polisvoorwaarden. Vul de postcode of plaats van je zorgverlener in en laat de zorgzoekers van de verzekeraars automatisch nakijken, of zoek zelf via de links (met <i>kopieer</i> zet je de naam op je klembord). Controleer of de gevonden praktijk de jouwe is; je kunt de keuze altijd zelf aanpassen. Labels van één concern delen meestal hun contracten; de berekening hieronder gebruikt dan de vergoeding zónder contract als die in de polis staat.</p>
-  <div class="lookup-bar"><label for="ctr-place">Postcode of plaats</label><input id="ctr-place" value="${esc(S.place)}" placeholder="bijv. 3511AB of Utrecht" autocomplete="postal-code"><button class="btn" id="ctr-lookup"${busy ? ' disabled' : ''}>${busy ? 'Bezig…' : 'Zoek automatisch op'}</button><span class="small" id="ctr-msg"></span></div>
+  const isBusy = (n: Need): boolean => groupNames.some((g) => lookups[n.id + '|' + g]?.state === 'busy');
+  let h = `<div class="ctr"><h3>Heeft jouw zorgverlener een contract?</h3><p class="small">Contracten verschillen per verzekeraar en staan niet in de polisvoorwaarden. Vul bij je zorg de postcode of plaats van je zorgverlener in en laat de zorgzoekers van de verzekeraars automatisch nakijken, of zoek zelf via de links (met <i>kopieer</i> zet je de naam op je klembord). Controleer of de gevonden praktijk de jouwe is; je kunt de keuze altijd zelf aanpassen. Elk label heeft zijn eigen contracten en zijn eigen zorgzoeker; automatisch zoeken kan alleen bij de labels waarvan we de zorgzoeker kunnen bevragen. Bij ‘Geen contract’ gebruikt de berekening hieronder de vergoeding zónder contract als die in de polis staat.</p>
+  ${needs
+    .map((n) => {
+      const ok = (S.places[n.id] || '').trim().length >= 2;
+      return `<div class="lookup-bar"><button class="btn" data-lookup="${esc(n.id)}"${!ok || isBusy(n) ? ' disabled' : ''}>${isBusy(n) ? 'Bezig…' : 'Zoek automatisch op'}</button><span class="small">${esc(n.label.split(' (')[0])}: <b>${esc(S.providers[n.id])}</b>${ok ? ' in ' + esc(S.places[n.id]) : ' – vul eerst een postcode of plaats in bij de zorg hierboven'}</span></div>`;
+    })
+    .join('')}
   <table><thead><tr><th>Verzekeraar</th>${needs.map((n) => `<th data-short="${esc(n.label.split(' (')[0])}">${esc(n.label.split(' (')[0])}: ${esc(S.providers[n.id])} <button class="cp" data-cp="${esc(S.providers[n.id])}">kopieer</button></th>`).join('')}</tr></thead><tbody>`;
   for (const g of groups) {
     h +=
@@ -123,26 +195,14 @@ export function renderCtr(): void {
         'beforebegin',
         `<div class="cps small">${needs.map((n) => `${esc(n.label.split(' (')[0])}: <b>${esc(S.providers[n.id])}</b> <button class="cp" data-cp="${esc(S.providers[n.id])}">kopieer</button>`).join('<br>')}</div>`,
       );
-  const placeInput = box.querySelector<HTMLInputElement>('#ctr-place')!;
-  placeInput.oninput = () => {
-    S.place = placeInput.value;
-    saveCtr();
-  };
-  const run = () => {
-    if (S.place.trim().length < 2) {
-      $('#ctr-msg').textContent = 'Vul eerst de postcode of plaats van je zorgverlener in.';
-      placeInput.focus();
-      return;
-    }
-    void Promise.all(needs.map((n) => lookUp(n, groupNames)));
-  };
-  box.querySelector<HTMLButtonElement>('#ctr-lookup')!.onclick = run;
-  placeInput.onkeydown = (e) => {
-    if (e.key === 'Enter') run();
-  };
+  box.querySelectorAll<HTMLButtonElement>('[data-lookup]').forEach((b) => {
+    b.onclick = () => {
+      const n = needs.find((x) => x.id === b.dataset.lookup);
+      if (n) void lookUp(n, groupNames);
+    };
+  });
   box.onchange = (e) => {
     const sel = e.target as HTMLSelectElement;
-    if (sel.id === 'ctr-place') return;
     const k = sel.dataset.ctr;
     if (!k) return;
     S.contracts[k] = sel.value as ContractState;

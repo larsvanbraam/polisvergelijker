@@ -29,7 +29,8 @@ function renderPlanInputs(): void {
       ) => `<div class="need"><div class="nh"><label for="nd-${esc(n.id)}">${esc(n.label)}</label><button class="x" data-rm="${esc(n.id)}" aria-label="${esc(n.label)} verwijderen" title="Verwijderen">×</button></div>
     <div class="in"><input type="number" min="0" step="1" id="nd-${esc(n.id)}" data-id="${esc(n.id)}" value="${S.plan[n.id] || ''}" placeholder="0"> ${esc(n.unit)}</div>
     <div class="small">${n.hint ? esc(n.hint) : '&nbsp;'}</div>
-    <input class="prov" data-prov="${esc(n.id)}" value="${esc(S.providers[n.id] || '')}" placeholder="Eigen zorgverlener (optioneel)" aria-label="Eigen zorgverlener voor ${esc(n.label)}"></div>`,
+    <input class="prov" data-prov="${esc(n.id)}" value="${esc(S.providers[n.id] || '')}" placeholder="Eigen zorgverlener (optioneel)" aria-label="Eigen zorgverlener voor ${esc(n.label)}">
+    <input class="prov pc" data-pc="${esc(n.id)}" value="${esc(S.places[n.id] || '')}" placeholder="Postcode of plaats (om te zoeken)" autocomplete="postal-code" aria-label="Postcode of plaats van de zorgverlener voor ${esc(n.label)}"></div>`,
     )
     .join('');
   const m = allTreatments(),
@@ -65,6 +66,14 @@ function renderPlanInputs(): void {
         renderCtr();
         renderPlanResult();
       }, 250);
+      return;
+    }
+    const pc = target.dataset.pc;
+    if (pc !== undefined) {
+      S.places[pc] = target.value.trim();
+      saveCtr();
+      clearTimeout(providerTimer);
+      providerTimer = setTimeout(renderCtr, 250);
       return;
     }
     if (target.id === 'nd-add') {

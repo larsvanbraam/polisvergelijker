@@ -671,6 +671,22 @@ sup.fn a {
   margin-bottom: 4px;
   max-width: 34ch;
 }
+.lookup .badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: var(--line);
+  color: var(--ink);
+}
+.lookup .badge.yes {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.lookup .badge.no {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
 .lookup .muted {
   color: var(--muted);
 }
