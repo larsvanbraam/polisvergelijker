@@ -28,17 +28,11 @@ export const CTR_GROUPS: { group: string; labels: string[] }[] = [
  * Groups not listed are answered by the finder of the same name.
  */
 export const FINDER_CONCERN: Record<string, string | null> = {
-  'Zilveren Kruis': 'Achmea',
-  Interpolis: null,
-  FBTO: null,
-  'De Friesland': null,
   CZ: 'CZ groep',
   CZdirect: null,
   OHRA: null,
   'Nationale-Nederlanden': null,
   Just: null,
-  Univé: null,
-  IZA: null,
   'Stad Holland': null,
   VvAA: null,
 };
