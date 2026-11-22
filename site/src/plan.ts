@@ -5,7 +5,7 @@ import { docName, fn, fnList, fnPremium, fnRec, resetFootnotes } from './footnot
 import { $, esc, eur, money } from './format';
 import { purchaseLine, siteLink } from './links';
 import { NEEDS, SYN, needDef } from './needlist';
-import { cellMap, modBest, score, type Scored } from './pricing';
+import { cellMap, ctrState, modBest, score, type Scored } from './pricing';
 import { S, saveCtr } from './state';
 import type { BasePolicy } from './types';
 
@@ -19,6 +19,26 @@ function allTreatments(): Map<string, { g: string; n: number }> {
     if (r.covered) m.get(r.treatment)!.n++;
   }
   return m;
+}
+/** Per own provider whether it has a contract with this insurer (as filled in at "Heeft jouw zorgverlener een contract?"). */
+function contractBadges(x: Scored): string {
+  const lines = x.e.detail
+    .filter((d) => S.providers[d.n.id])
+    .map((d) => {
+      const st = ctrState(d.n, x.p.label);
+      const b =
+        st === 'yes'
+          ? '<span class="badge yes">✓ Contract</span>'
+          : st === 'no'
+            ? '<span class="badge no">✗ Geen contract</span>'
+            : '<span class="badge">? Contract niet gecheckt</span>';
+      const extra =
+        st === 'no' && d.contractNote
+          ? ` <span class="muted">${esc(d.contractNote.replace(/^geen contract:?\s*/, ''))}</span>`
+          : '';
+      return `<div class="small ctr-line">${b} <span class="muted">${esc(S.providers[d.n.id])}</span>${extra}</div>`;
+    });
+  return lines.join('');
 }
 function renderPlanInputs(): void {
   const chosen = S.chosen.map(needDef);
@@ -314,7 +334,7 @@ export function renderPlanResult(): void {
   h += top
     .map(
       (x, i) => `<tr class="${i === 0 ? 'best-row' : ''}"><td class="rk">${i + 1}</td>
-    <td><b>${esc(x.p.label)} ${esc(x.p.package)}</b>${fnPremium(x.p, x.c)}${membersOnly(x.p.label) ? ' <span class="pill">alleen voor leden</span>' : ''}${x.p.mods ? ' <span class="pill">losse modules</span>' : ''}<div class="small">Afsluiten: ${purchaseLine(x.p, x.c)}</div>
+    <td><b>${esc(x.p.label)} ${esc(x.p.package)}</b>${fnPremium(x.p, x.c)}${membersOnly(x.p.label) ? ' <span class="pill">alleen voor leden</span>' : ''}${x.p.mods ? ' <span class="pill">losse modules</span>' : ''}<div class="small">Afsluiten: ${purchaseLine(x.p, x.c)}</div>${contractBadges(x)}
       <details class="more"><summary>wat wordt vergoed</summary><div>${x.e.detail.length ? '' : 'Je hebt nog geen zorg ingevuld; vul bij stap 2 een aantal of bedrag in.'}${x.e.detail.map((d) => `${esc(d.n.label)}: ${eur(Math.round(d.paid))} van ${eur(d.cost)}${d.r ? fnRec(d.r) : ' (niet gedekt)'}${d.contractNote ? ` <span class="small${d.contractNote.startsWith('geen') ? ' warn-t' : ''}">(${esc(d.contractNote)})</span>` : ''}`).join('<br>')}</div></details></td>
     <td class="num">${money((x.c.total as number) * 12)}</td><td class="num">${money(x.e.reimbursed)}</td><td class="num">${money(x.e.costs - x.e.reimbursed)}</td><td class="num"><b>${money(x.yearly as number)}</b></td></tr>`,
     )
