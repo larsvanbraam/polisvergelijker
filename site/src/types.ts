@@ -82,6 +82,8 @@ export interface Need {
   unit: string;
   rate?: number;
   hint?: string;
+  /** Care-type names to try in the insurers' provider finders, comma separated. */
+  finderTypes?: string;
 }
 
 export type ContractState = 'yes' | 'no' | '?';

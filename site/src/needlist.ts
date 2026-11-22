@@ -3,6 +3,7 @@ import type { Need } from './types';
 export const NEEDS: Need[] = [
   {
     id: 'physio',
+    finderTypes: 'fysiotherapie,oefentherapie',
     treatment: 'Fysiotherapie',
     label: 'Fysiotherapie',
     kind: 'sessions',
@@ -12,14 +13,23 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'podiatry',
+    finderTypes: 'podotherapie,podologie,pedicure',
     treatment: 'Podotherapie en voetzorg',
     label: 'Podotherapie / voetzorg',
     kind: 'eur',
     unit: '€ per jaar',
   },
-  { id: 'insoles', treatment: 'Steunzolen', label: 'Steunzolen', kind: 'eur', unit: '€ per jaar' },
+  {
+    id: 'insoles',
+    finderTypes: 'podotherapie,podologie,orthopedisch schoenmaker',
+    treatment: 'Steunzolen',
+    label: 'Steunzolen',
+    kind: 'eur',
+    unit: '€ per jaar',
+  },
   {
     id: 'alternative',
+    finderTypes: 'alternatieve zorg,osteopathie,acupunctuur',
     treatment: 'Alternatieve geneeswijzen',
     label: 'Alternatieve zorg (osteopaat, acupunctuur, homeopaat…)',
     kind: 'visits',
@@ -29,6 +39,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'glasses',
+    finderTypes: 'opticien',
     treatment: 'Brillen en lenzen volwassenen',
     label: 'Bril of lenzen',
     kind: 'eur',
@@ -36,6 +47,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'psychology',
+    finderTypes: 'psychologie,gz-psycholoog,psychotherapie',
     treatment: 'Psychologische zorg / mentale ondersteuning',
     label: 'Psychologische zorg (aanvullend)',
     kind: 'eur',
@@ -43,6 +55,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'mindfulness',
+    finderTypes: 'psychologie',
     treatment: 'Mindfulness bij burn-out',
     label: 'Mindfulnesstraining',
     kind: 'eur',
@@ -50,6 +63,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'dietitian',
+    finderTypes: 'diëtetiek,dietist',
     treatment: 'Diëtetiek',
     label: 'Diëtist (boven de basis)',
     kind: 'eur',
@@ -65,6 +79,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'dentist',
+    finderTypes: 'tandarts,mondzorg',
     treatment: 'Tandarts (aanvullend)',
     label: 'Tandarts (18+)',
     kind: 'eur',
@@ -73,6 +88,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'orthodontics',
+    finderTypes: 'orthodontie,tandarts',
     treatment: 'Orthodontie',
     label: 'Orthodontie (beugel)',
     kind: 'eur',
@@ -80,6 +96,7 @@ export const NEEDS: Need[] = [
   },
   {
     id: 'travel_vaccines',
+    finderTypes: 'reizigersvaccinatie,huisarts',
     treatment: 'Vaccinaties buitenland',
     label: 'Reisvaccinaties',
     kind: 'eur',
