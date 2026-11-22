@@ -2,7 +2,7 @@
 
 Compare Dutch supplementary health insurance packages for 2027 in detail: which treatment is covered, how much, by which providers, and where it is stated in the policy. Every value has a footnote pointing to the source document and page.
 
-Live: https://zorgverzekering.larsvanbraam.nl
+Live: https://polisvergelijker.larsvanbraam.nl
 
 The site itself is in Dutch, as are the extracted policy texts. Code, comments and docs are in English.
 
