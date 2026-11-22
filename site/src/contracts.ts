@@ -70,8 +70,11 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
         continue;
       }
       lookups[k] = { state: 'done', result };
-      const best = result.status === 'ok' ? pickMatch(result.matches, name) : undefined;
-      if (best) S.contracts[k] = CONTRACT_STATE[best.contract] ?? '?';
+      if (result.status === 'ok') {
+        const best = pickMatch(result.matches, name);
+        // Not in the finder = most likely no contract (the name may also be spelled differently there).
+        S.contracts[k] = best ? (CONTRACT_STATE[best.contract] ?? '?') : 'no';
+      }
     }
     saveCtr();
   } catch (e) {
@@ -129,13 +132,17 @@ function lookupNote(k: string): string {
       'niet automatisch te controleren' + (r.reason ? ': ' + esc(r.reason) : ''),
     );
   const m = r.matches;
-  if (!m.length) return badge({ cls: 'unk', label: '? Niet gevonden' }, 'zoek zelf via de link');
+  if (!m.length)
+    return badge(
+      { cls: 'no', label: '✗ Niet gevonden' },
+      'waarschijnlijk geen contract; klopt de naam? Zoek zelf via de link',
+    );
   const best = pickMatch(m, S.providers[k.split('|')[0]] || '');
   if (!best) {
     const c = m[0];
     return badge(
-      { cls: 'unk', label: '? Niet gevonden' },
-      `geen treffer op deze naam, zoek zelf via de link <span class="muted">(dichtstbij: ${esc(c.name)}${c.address ? ', ' + esc(c.address) : ''})</span>`,
+      { cls: 'no', label: '✗ Niet gevonden' },
+      `waarschijnlijk geen contract: geen treffer op deze naam, zoek zelf via de link <span class="muted">(dichtstbij: ${esc(c.name)}${c.address ? ', ' + esc(c.address) : ''})</span>`,
     );
   }
   const b: Badge =
