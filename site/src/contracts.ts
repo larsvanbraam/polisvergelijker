@@ -31,37 +31,35 @@ const CONTRACT_TEXT: Record<ContractStatus, string> = {
 
 const finderOf = (group: string): string | null => (group in FINDER_CONCERN ? FINDER_CONCERN[group] : group);
 
-/** Ask the provider finders of all shown concerns at once; fills the dropdowns with what they report. */
-async function lookUp(n: Need, groups: string[]): Promise<void> {
+/** Same search = same URL, so the CDN can serve it to everyone: trim, collapse spaces, canonical postcode. */
+const canon = (name: string, place: string): { name: string; location: string } => ({
+  name: name.trim().replace(/\s+/g, ' '),
+  location: place
+    .trim()
+    .replace(/\s+/g, ' ')
+    .replace(/^(\d{4}) ?([a-zA-Z]{2})$/, (_m, d: string, l: string) => d + l.toUpperCase()),
+});
+
+/**
+ * One request per finder (concern): each answer is cached on its own at the CDN, shared between visitors,
+ * and shows up as soon as it is there.
+ */
+async function lookUpConcern(
+  n: Need,
+  concern: string,
+  groups: string[],
+  base: URLSearchParams,
+): Promise<void> {
   const name = S.providers[n.id];
-  const place = (S.places[n.id] || '').trim();
-  for (const g of groups) lookups[n.id + '|' + g] = { state: 'busy' };
-  renderCtr();
-  const q = new URLSearchParams({
-    name,
-    location: place,
-    type: n.finderTypes ?? n.treatment.toLowerCase(),
-    concerns: [...new Set(groups.map(finderOf).filter((c): c is string => !!c))].join(','),
-  });
   try {
-    let body: Partial<ContractResponse> & { error?: string } = { results: [] };
-    if (q.get('concerns')) {
-      const res = await fetch('/api/contract?' + q.toString());
-      body = (await res.json()) as typeof body;
-      if (!res.ok || !body.results) throw new Error(body.error || 'HTTP ' + res.status);
-    }
-    const results = body.results ?? [];
+    const q = new URLSearchParams(base);
+    q.set('concerns', concern);
+    const res = await fetch('/api/contract?' + q.toString());
+    const body = (await res.json()) as Partial<ContractResponse> & { error?: string };
+    if (!res.ok || !body.results) throw new Error(body.error || 'HTTP ' + res.status);
+    const result = body.results.find((r) => r.concern === concern);
     for (const g of groups) {
-      const concern = finderOf(g);
-      const result = concern ? results.find((r) => r.concern === concern) : undefined;
       const k = n.id + '|' + g;
-      if (!concern) {
-        lookups[k] = {
-          state: 'done',
-          result: { status: 'unsupported', reason: 'de zorgzoeker van dit label wordt niet doorzocht' },
-        };
-        continue;
-      }
       if (!result) {
         lookups[k] = {
           state: 'done',
@@ -83,6 +81,28 @@ async function lookUp(n: Need, groups: string[]): Promise<void> {
   }
   renderCtr();
   renderPlanResult();
+}
+
+/** Ask the provider finders of all shown concerns; fills the dropdowns with what they report. */
+async function lookUp(n: Need, groups: string[]): Promise<void> {
+  const { name, location } = canon(S.providers[n.id], S.places[n.id] || '');
+  const base = new URLSearchParams({ name, location, type: n.finderTypes ?? n.treatment.toLowerCase() });
+  const byConcern = new Map<string, string[]>();
+  for (const g of groups) {
+    const k = n.id + '|' + g;
+    const concern = finderOf(g);
+    if (!concern) {
+      lookups[k] = {
+        state: 'done',
+        result: { status: 'unsupported', reason: 'de zorgzoeker van dit label wordt niet doorzocht' },
+      };
+      continue;
+    }
+    lookups[k] = { state: 'busy' };
+    byConcern.set(concern, [...(byConcern.get(concern) ?? []), g]);
+  }
+  renderCtr();
+  await Promise.all([...byConcern].map(([concern, gs]) => lookUpConcern(n, concern, gs, base)));
 }
 
 const norm = (t: string): string =>

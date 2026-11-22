@@ -89,7 +89,11 @@ export default async function handler(
     FINDERS.filter((f) => !only || only.has(f.concern)).map((f) => lookUp(f, name, location, careTypes)),
   );
   const body: ContractResponse = { name, location, careType: careTypes[0], results };
-  res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
+  // Cache only answers in which every finder answered: a finder that was down must not be remembered for an hour.
+  res.setHeader(
+    'Cache-Control',
+    results.some((r) => r.status === 'error') ? 'no-store' : 's-maxage=3600, stale-while-revalidate=86400',
+  );
   res.statusCode = 200;
   res.end(JSON.stringify(body));
 }
