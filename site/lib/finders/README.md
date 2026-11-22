@@ -15,12 +15,12 @@ Each finder exports a `Finder` (see `types.ts`):
 
 The finders call undocumented endpoints of the insurers' websites. Field names of those responses are Dutch and stay as they are; the texts shown to users (`text`, `reason`) are Dutch too. `finders.test.ts` checks the mapping with recorded-style responses; whether the live endpoints still answer the same way can only be checked against the real sites.
 
-| File | Concern | Labels |
-|---|---|---|
-| `achmea.ts` | Achmea | Zilveren Kruis, Interpolis, FBTO, De Friesland |
-| `cz.ts` | CZ groep | CZ, CZdirect, OHRA, Nationale-Nederlanden, Just |
-| `vgz.ts` | VGZ | VGZ, Univé, IZA |
-| `dsw.ts`, `asr.ts` (via `pw-platform.ts`) | DSW, a.s.r. | DSW, Stad Holland; a.s.r., VvAA |
-| `menzis.ts`, `eno.ts`, `onvz.ts` (via `z-zoeker.ts`) | Menzis, ENO, ONVZ | Menzis; Salland; ONVZ |
-| `zorgenzekerheid.ts` | Zorg en Zekerheid | Zorg en Zekerheid |
-| `eucare.ts` | Eucare | Aevitae |
+| File                                                 | Concern           | Labels                                          |
+| ---------------------------------------------------- | ----------------- | ----------------------------------------------- |
+| `achmea.ts`                                          | Achmea            | Zilveren Kruis, Interpolis, FBTO, De Friesland  |
+| `cz.ts`                                              | CZ groep          | CZ, CZdirect, OHRA, Nationale-Nederlanden, Just |
+| `vgz.ts`                                             | VGZ               | VGZ, Univé, IZA                                 |
+| `dsw.ts`, `asr.ts` (via `pw-platform.ts`)            | DSW, a.s.r.       | DSW, Stad Holland; a.s.r., VvAA                 |
+| `menzis.ts`, `eno.ts`, `onvz.ts` (via `z-zoeker.ts`) | Menzis, ENO, ONVZ | Menzis; Salland; ONVZ                           |
+| `zorgenzekerheid.ts`                                 | Zorg en Zekerheid | Zorg en Zekerheid                               |
+| `eucare.ts`                                          | Eucare            | Aevitae                                         |

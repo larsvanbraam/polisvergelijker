@@ -1,6 +1,6 @@
 /** CZ group: CZ, CZdirect, OHRA, Nationale-Nederlanden, Just. Reads the server-rendered result page of zorgvinder.cz.nl. */
-import type { Finder, FinderMatch, FinderQuery, FinderResult } from './types';
-import { UA, errorText, timeout } from './util';
+import type { Finder, FinderMatch, FinderQuery, FinderResult } from './types.js';
+import { UA, errorText, timeout } from './util.js';
 
 const strip = (h: string): string =>
   h

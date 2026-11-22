@@ -3,8 +3,8 @@
  * Flow (as the finder page itself): GET page -> cookie + __RequestVerificationToken (CSRF),
  * then JSON POSTs to /clientcontroller/zorgzoekerclient/{getautofillzorgtype,getautofilllocatie,getautofillzorginstelling,getzorgaanbieders}.
  */
-import type { ContractStatus, Finder, FinderQuery, FinderResult } from './types';
-import { UA, cookiesOf, errorText, normalizeWords as norm, timeout } from './util';
+import type { ContractStatus, Finder, FinderQuery, FinderResult } from './types.js';
+import { UA, cookiesOf, errorText, normalizeWords as norm, timeout } from './util.js';
 
 const BASE = 'https://www.zilverenkruis.nl';
 const PAGE = BASE + '/consumenten/zorgzoeker';

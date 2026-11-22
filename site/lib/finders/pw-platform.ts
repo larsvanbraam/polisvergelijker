@@ -3,8 +3,8 @@
  * (www.dsw.nl, BFF https://content.dsw.nl/api) and a.s.r./VvAA (zorgzoeker.asr.nl, BFF https://content.zorgzoeker.asr.nl/api).
  * Endpoints (no login/captcha): GET v1/Zorgzoeker/GetZorgsoorten, POST v1/Zorgzoeker/FindZorgpartijen.
  */
-import type { ContractStatus, FinderQuery, FinderResult } from './types';
-import { UA, errorText, normalize, timeout } from './util';
+import type { ContractStatus, FinderQuery, FinderResult } from './types.js';
+import { UA, errorText, normalize, timeout } from './util.js';
 
 export interface PwConfig {
   api: string;

@@ -2,8 +2,8 @@
  * VGZ group: VGZ, Univé, IZA (same finder API; label path "vgz").
  * Endpoint (public, no auth): GET https://api.vgz.nl/zorgzoeker/api/v2/zorgaanbieder/zoekopnaam/vgz/<year>/<name>
  */
-import type { ContractStatus, Finder, FinderMatch, FinderQuery, FinderResult } from './types';
-import { UA, errorText, isPostcode, timeout } from './util';
+import type { ContractStatus, Finder, FinderMatch, FinderQuery, FinderResult } from './types.js';
+import { UA, errorText, isPostcode, timeout } from './util.js';
 
 const BASE = 'https://api.vgz.nl/zorgzoeker/api/v2/zorgaanbieder/zoekopnaam/vgz';
 const strip = (s: string | null | undefined): string =>

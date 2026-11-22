@@ -1,6 +1,6 @@
 /** a.s.r. + VvAA (same provider-finder platform as DSW, see pw-platform.ts). */
-import { checkPw } from './pw-platform';
-import type { Finder } from './types';
+import { checkPw } from './pw-platform.js';
+import type { Finder } from './types.js';
 
 const cfg = {
   api: 'https://content.zorgzoeker.asr.nl/api',

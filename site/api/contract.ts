@@ -3,8 +3,8 @@
  * Asks each concern's provider finder whether the provider has a contract and returns everything in one response.
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { FINDERS } from '../lib/finders/index';
-import type { ConcernResult, ContractResponse, Finder, FinderResult } from '../lib/finders/types';
+import { FINDERS } from '../lib/finders/index.js';
+import type { ConcernResult, ContractResponse, Finder, FinderResult } from '../lib/finders/types.js';
 
 const clean = (s: string | string[] | undefined, max: number): string =>
   (Array.isArray(s) ? (s[0] ?? '') : (s ?? ''))

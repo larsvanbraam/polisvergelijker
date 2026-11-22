@@ -1,6 +1,6 @@
 /** Menzis (zorgvinder.menzis.nl, z-zoeker classic). */
-import type { Finder } from './types';
-import { makeClassic } from './z-zoeker';
+import type { Finder } from './types.js';
+import { makeClassic } from './z-zoeker.js';
 
 export const menzis: Finder = {
   concern: 'Menzis',

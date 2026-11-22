@@ -1,6 +1,7 @@
 {
   "name": "polisvergelijker",
   "private": true,
+  "type": "module",
   "description": "Compare Dutch supplementary health insurance packages per treatment",
   "scripts": {
     "dev": "vp dev",

@@ -4,8 +4,8 @@
  *  - classic (Nuxt 2): Menzis + Salland. POST <host>/api/zadvies/<afnemer>/zorginkoop/zorgaanbieders
  *  - nuxt3: ONVZ. GET <host>/api/zoektermen + /api/zorgaanbieders (contractantCode required)
  */
-import type { ContractStatus, FinderMatch, FinderQuery, FinderResult } from './types';
-import { errorText, getJson, isPostcode, normalizeWords as norm } from './util';
+import type { ContractStatus, FinderMatch, FinderQuery, FinderResult } from './types.js';
+import { errorText, getJson, isPostcode, normalizeWords as norm } from './util.js';
 
 /** Search variants for a name: full, then fewer and fewer words (the search-term API matches word prefixes). */
 function variants(name: string): string[] {

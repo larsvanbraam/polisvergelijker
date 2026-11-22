@@ -2,8 +2,8 @@
  * Eucare / Aevitae: the provider finder is an embed (iframe) of https://zorgzoeker.caresq.nl (Faceit app), API: /api/v4/search.
  * Note: without the uzovi parameter this is the generic Eucare finder (the Aevitae iframe does not pass uzovi either).
  */
-import type { Finder, FinderQuery, FinderResult } from './types';
-import { errorText, getJson, normalize } from './util';
+import type { Finder, FinderQuery, FinderResult } from './types.js';
+import { errorText, getJson, normalize } from './util.js';
 
 const B = 'https://zorgzoeker.caresq.nl';
 

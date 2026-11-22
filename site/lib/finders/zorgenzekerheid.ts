@@ -2,8 +2,8 @@
  * Zorg en Zekerheid: server-rendered Java app at https://service.zorgenzekerheid.nl/zorgzoeker.
  * Needs a session cookie (GET home.html) + lat/long; the site geocodes via Google Maps, we use the PDOK Locatieserver (free, no key).
  */
-import type { ContractStatus, Finder, FinderMatch, FinderQuery, FinderResult } from './types';
-import { UA, cookiesOf, errorText, normalize, timeout } from './util';
+import type { ContractStatus, Finder, FinderMatch, FinderQuery, FinderResult } from './types.js';
+import { UA, cookiesOf, errorText, normalize, timeout } from './util.js';
 
 const B = 'https://service.zorgenzekerheid.nl/zorgzoeker';
 
