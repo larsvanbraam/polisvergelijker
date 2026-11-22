@@ -1,4 +1,4 @@
-"""Builds site/data.json from the extracted policy files in data/.
+"""Builds site/public/data.json from the extracted policy files in data/.
 
 Formats:
   *.psv  : one package per file. Header '#label=..|concern=..|package=..|premium=..|source=..'
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     for r in out["records"]:
         for k in [k for k, v in r.items() if v is None or v == "" or v is False]:
             r.pop(k)
-    json.dump(out, open(os.path.join(HERE, "site", "data.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(out, open(os.path.join(HERE, "site", "public", "data.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     treatments = sorted({r["treatment"] for r in records})
     print(f"{len(packages)} packages, {len(records)} records, {len(treatments)} treatments")
     unmapped = sorted({r["treatment"] for r in records if r["category"] == "Overig" and r["treatment"] not in [c[0] for c in CANON]})

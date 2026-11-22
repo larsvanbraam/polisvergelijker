@@ -1,704 +1,299 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken</title>
-<meta name="description" content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs.">
-<link rel="canonical" href="https://polisvergelijker.larsvanbraam.nl/">
-<meta name="theme-color" content="#0c6b5a">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Polisvergelijker">
-<meta property="og:locale" content="nl_NL">
-<meta property="og:url" content="https://polisvergelijker.larsvanbraam.nl/">
-<meta property="og:title" content="Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken">
-<meta property="og:description" content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs.">
-<meta property="og:image" content="https://polisvergelijker.larsvanbraam.nl/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Polisvergelijker 2027: vergelijk aanvullende zorgverzekeringen op wat jij nodig hebt">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken">
-<meta name="twitter:description" content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs.">
-<meta name="twitter:image" content="https://polisvergelijker.larsvanbraam.nl/og.png">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c6b5a'/%3E%3Cpath d='M26 12h12v14h14v12H38v14H26V38H12V26h14z' fill='%23fff'/%3E%3Ccircle cx='47' cy='47' r='10' fill='%234fc2a8' stroke='%230c6b5a' stroke-width='3'/%3E%3Cpath d='M42.5 47.5l3 3 6-6.5' fill='none' stroke='%230c6b5a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-/* Layout: top bar and tabs; treatment list on the left, comparison on the right. Styled like a clear policy form. */
-:root{
-  --paper:#f5f7f6; --surface:#ffffff; --ink:#18242b; --muted:#5d6b72; --line:#d9e0de;
-  --accent:#0c6b5a; --accent-soft:#dcefe9; --warn:#a35a00; --warn-soft:#fbecd6; --none:#9aa6ab;
-  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
-  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0f1115; --surface:#171a1f; --ink:#e7e9ed; --muted:#9ba2ad; --line:#2a2e36;
-  --accent:#5cc6ae; --accent-soft:#1d2626; --warn:#e8a656; --warn-soft:#30271b; --none:#5d636d; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --paper:#0f1115; --surface:#171a1f; --ink:#e7e9ed; --muted:#9ba2ad; --line:#2a2e36;
-  --accent:#5cc6ae; --accent-soft:#1d2626; --warn:#e8a656; --warn-soft:#30271b; --none:#5d636d; color-scheme:dark}
-*{box-sizing:border-box}
-/* Dark: neutral greys, green only as accent */
-:root[data-theme="dark"] .chip[aria-pressed="true"]{border-color:#3a4a48;background:#1f2427}
-:root[data-theme="dark"] tr.best-row td{background:#1b2321}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{border-color:#3a4a48;background:#1f2427}
- :root:not([data-theme="light"]) tr.best-row td{background:#1b2321}}
-
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
-a{color:var(--accent)}
-button,input,select{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding:0 24px;background:var(--surface);border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
-.brand .logo{width:30px;height:30px;flex:none}
-.brand .wm{font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:.01em}
-.brand .yr{font-family:var(--mono);font-size:12px;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
-@media (max-width:700px){.topbar{height:50px;padding:0 12px}.brand .wm{font-size:17px}.brand .yr{display:none}.topbar .seg button{padding:4px 8px;font-size:13px}header h1{font-size:24px;line-height:1.2}}
-header{padding:20px 24px 0;display:grid;gap:14px}
-h1{font-family:var(--display);font-weight:600;font-size:28px;margin:0;letter-spacing:.01em;text-wrap:balance}
-.sub{color:var(--muted);margin:0;max-width:75ch}
-nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);flex-wrap:wrap}
-nav.tabs a{padding:9px 14px;text-decoration:none;color:var(--muted);border:1px solid transparent;border-bottom:none;border-radius:6px 6px 0 0;font-weight:500}
-nav.tabs a[aria-current="page"]{background:var(--surface);color:var(--ink);border-color:var(--line);margin-bottom:-1px}
-.filters{display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--line)}
-.filters .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:4px}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 11px;cursor:pointer;font-size:13.5px}
-.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--ink)}
-.chip .n{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:4px}
-main{padding:20px 24px 40px}
-.view{display:none}.view.on{display:block}
-.split{display:grid;grid-template-columns:270px 1fr;gap:24px;align-items:start}
-@media (max-width:820px){.split{grid-template-columns:1fr}}
-.side{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;position:sticky;top:68px;max-height:calc(100vh - 80px);overflow:auto}
-@media (max-width:820px){.side{position:static;max-height:320px}}
-.side input[type=search]{width:100%;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);margin-bottom:8px}
-.grp{font-family:var(--display);font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:12px 6px 4px}
-.treat{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;background:none;padding:5px 8px;border-radius:5px;cursor:pointer}
-.treat:hover{background:var(--paper)}
-.treat[aria-current="true"]{background:var(--accent-soft);font-weight:600}
-.treat>span:first-child{min-width:0;overflow-wrap:anywhere}
-.treat .c{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
-.treat input{margin-right:6px}
-h2{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 4px;text-wrap:balance}
-.summary{color:var(--muted);margin:0 0 14px}
-.summary b{color:var(--ink)}
-.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;background:var(--surface);position:sticky;top:0;white-space:nowrap}
-th button{all:unset;cursor:pointer}
-th button:focus-visible{outline:2px solid var(--accent)}
-tr:last-child td{border-bottom:0}
-td.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
-.pk b{display:block}.buy{font-size:12.5px;margin-top:6px;color:var(--ink)}
-select{border:1px solid var(--line);border-radius:6px;padding:3px 6px;background:var(--paper)}.pk span{color:var(--muted);font-size:13px}
-.bar{height:6px;background:var(--paper);border-radius:3px;margin-top:6px;max-width:200px}
-.bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
-.none td{color:var(--none)}
-.pill{display:inline-block;font-size:11.5px;padding:1px 7px;border-radius:999px;background:var(--warn-soft);color:var(--warn);font-weight:600;white-space:nowrap}
-.src{font-size:13px;white-space:nowrap}
-.small{font-size:13px;color:var(--muted)}
-.toggle{display:inline-flex;gap:6px;align-items:center;font-size:13.5px;color:var(--muted);cursor:pointer}
-.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:10px}
-.matrix td{min-width:170px}
-.matrix td.rh{min-width:200px;font-weight:500;position:sticky;left:0;background:var(--surface)}
-.matrix tr.g td{background:var(--paper);font-family:var(--display);text-transform:uppercase;letter-spacing:.07em;font-size:12.5px;color:var(--muted)}
-.matrix td.best{box-shadow:inset 3px 0 0 var(--accent)}
-.rank{display:grid;gap:10px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:start}
-.card .pos{font-family:var(--mono);font-size:20px;color:var(--muted);grid-row:span 2}
-.card .score{text-align:right}
-.card .score b{font-family:var(--mono);font-size:18px}
-.card ul{grid-column:2 / 4;margin:4px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-.card li{font-size:13px;border:1px solid var(--line);border-radius:5px;padding:2px 8px;background:var(--paper)}
-.card li.miss{color:var(--none);text-decoration:line-through}
-sup.fn{font-family:var(--mono);font-size:10.5px;margin-left:2px}
-sup.fn a{text-decoration:none;padding:0 2px;border-radius:3px;background:var(--accent-soft)}
-.fns{margin-top:18px}.fns h3{font-family:var(--display);font-size:15px;margin:0 0 6px}
-.fnlist{margin:0;padding-left:28px;font-size:12.5px;color:var(--muted);display:grid;gap:4px;max-width:120ch}
-.fnlist li:target{background:var(--warn-soft);color:var(--ink)}
-.clamp{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;max-width:46ch}
-.steps{display:grid;gap:18px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.seg button{border:0;background:var(--paper);padding:5px 12px;cursor:pointer;font-size:13.5px}
-.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
-.num .alt{display:block;font-size:11.5px;color:var(--muted)}
-.step{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
-.sn{flex:none;width:32px;height:32px;border-radius:50%;background:var(--accent);color:var(--surface);display:grid;place-items:center;font-family:var(--mono);font-weight:500}
-.needs{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:10px}
-.need{border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--paper);display:flex;flex-direction:column;gap:8px}
-.need .in{margin-top:auto}
-.need .in+.small{margin-top:-2px}
-.need label{font-weight:500}
-.nh{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.x{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;cursor:pointer;padding:0 4px;border-radius:4px}
-.x:hover{color:var(--ink);background:var(--line)}
-.need .prov{width:100%;padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);font-size:13.5px}
-.ctr{margin-top:14px;border:1px solid var(--line);border-radius:6px;background:var(--paper);padding:12px}
-.ctr h3{margin:0 0 4px;font-size:15px}
-.ctr table{width:100%;border-collapse:collapse;margin-top:8px;font-size:13.5px}
-.ctr th,.ctr td{text-align:left;padding:6px 8px;border-top:1px solid var(--line);vertical-align:middle}
-.ctr th{font-weight:500;color:var(--muted)}
-.ctr select{padding:3px 6px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--ink);font:inherit}
-.ctr select.yes{border-color:var(--accent)} .ctr select.no{border-color:var(--warn)}
-.ctr .lnk{white-space:nowrap;margin-left:6px}
-.ctr .cp{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:4px;padding:1px 6px;cursor:pointer;font-size:12px;margin-left:4px}
-.warn-t{color:var(--warn)}
-.need.add{border-style:dashed;background:transparent;grid-column:1/-1}
-.need.add .chips{display:flex;flex-wrap:wrap;gap:6px}
-.need.add input{max-width:420px}
-.need.add input{padding:6px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);width:100%}
-.need .in{display:flex;gap:6px;align-items:center;font-size:13.5px;color:var(--muted)}
-.need input[type=number]{width:90px;padding:4px 6px;border:1px solid var(--line);border-radius:5px;background:var(--surface);font-family:var(--mono)}
-.rk{font-family:var(--mono);color:var(--muted)}
-tr.best-row td{background:var(--accent-soft)}
-tr.ref-row td{font-style:italic}
-details.more summary{cursor:pointer;color:var(--accent);font-size:12.5px}
-details.more div{font-size:12.5px;color:var(--muted);margin-top:4px;max-width:60ch}
-.empty{padding:24px;color:var(--muted)}
-footer{padding:0 24px 32px;color:var(--muted);font-size:13.5px;display:grid;gap:10px;max-width:110ch}
-.disclaimer{margin-top:10px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-.disclaimer p{margin:6px 0 0}
-.res-note{margin:10px 0 0}
-footer h3{font-family:var(--display);font-size:16px;color:var(--ink);margin:8px 0 0}
-.status{display:flex;flex-wrap:wrap;gap:6px}
-.status span{border:1px solid var(--line);border-radius:5px;padding:2px 8px;font-size:12.5px;background:var(--surface)}
-.status span.todo{border-style:dashed;color:var(--none)}
-.step>div,.split>*{min-width:0}
-[hidden]{display:none!important}
-/* leave room for the sticky top bar when scrolling to steps, footnotes and anchors */
-html{scroll-padding-top:68px}
-@media (max-width:700px){html{scroll-padding-top:60px}}
-.rkm{display:none}
-.step .sn{transition:background .2s}
-.step.done .sn{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent)}
-.step.done .sn{font-size:0}.step.done .sn::after{content:"✓";font-size:17px;font-weight:600;font-family:var(--body)}
-.step.current{border-color:var(--accent)}
-.s1{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:10px;font-size:14px}
-.s1 label{display:flex;align-items:center;gap:8px}
-.s1 select{padding:5px 8px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--ink);font:inherit}
-.step.pending .sn{background:var(--line);color:var(--muted)}
-.btn{margin-top:14px;padding:8px 16px;border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--surface);font:inherit;font-weight:500;cursor:pointer}
-.btn:hover{filter:brightness(1.08)}
-.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
-.nextrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.nextrow .btn{margin-top:16px}.nextrow .small{margin-top:16px}
-.step.pending h2{color:var(--muted)}
-.linkbtn{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;cursor:pointer;font:inherit}
-a.site{white-space:nowrap;margin-left:4px}
-/* iOS zooms in on form fields with text smaller than 16px */
-@media (max-width:700px),(pointer:coarse){input,select,textarea{font-size:16px!important}}
-@media (max-width:700px){
-  header{padding:14px 14px 0} main{padding:14px 10px 32px}
-  .filters{padding:10px 14px;gap:10px}
-  .filters>div:has(#f-label){width:100%;display:flex;align-items:center;gap:6px}
-  #f-label{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
-  #f-label .chip{flex:none}
-  nav.tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none} nav.tabs::-webkit-scrollbar{display:none}
-  nav.tabs a{white-space:nowrap;padding:8px 10px}
-  .step{padding:12px;gap:10px;flex-direction:column}
-  .sn{width:26px;height:26px;font-size:13px}
-  .needs{grid-template-columns:1fr}
-  .ctr{padding:10px}
-  .tablewrap:has(table.cards){overflow:visible;background:transparent;border:0}
-  table.cards,table.cards tbody{display:block}
-  table.cards thead{display:none}
-  table.cards.sortable thead{display:block;margin-bottom:6px}
-  table.cards.sortable thead tr{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  table.cards.sortable thead tr::before{content:"Sorteer:";font-size:12px;color:var(--muted)}
-  table.cards.sortable th{border:0;padding:0;background:none}
-  table.cards.sortable th:not(:has(button)){display:none}
-  table.cards.sortable th button{border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
-  table.cards tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;padding:12px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
-  .ctr table.cards tr{background:var(--paper);margin-bottom:6px}
-  table.cards td{display:block;border:0;padding:0;text-align:left;min-width:0;overflow-wrap:anywhere}
-  table.cards td.c-hide{display:none}
-  table.cards td.c-full{grid-column:1/-1}
-  table.cards td[data-l]:not(.c-main)::before{content:attr(data-l);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:2px}
-  table.cards td.c-main .rkm{display:inline;font-family:var(--mono);color:var(--muted);margin-right:6px}
-  table.cards select{width:100%}
-  .fns{overflow-wrap:anywhere}
-  table.cards tr.best-row{background:var(--accent-soft);border-color:var(--accent)} table.cards tr.best-row td{background:transparent}
-  #p-pick{max-height:190px;overflow:auto;padding:6px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-  .matrix tr>*:first-child{position:sticky;left:0;z-index:1;background:var(--surface);width:118px;min-width:118px;max-width:118px;font-size:12.5px}
-  .matrix td,.matrix th{min-width:170px}
-  .ctr .cps{display:block;margin:6px 0 2px}
-}
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
-</head>
-<body>
-<div class="topbar"><a class="brand" href="#stappenplan" aria-label="Polisvergelijker, naar het stappenplan"><svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#0c6b5a"/><path d="M26 12h12v14h14v12H38v14H26V38H12V26h14z" fill="#fff"/><circle cx="47" cy="47" r="10" fill="#4fc2a8" stroke="#0c6b5a" stroke-width="3"/><path d="M42.5 47.5l3 3 6-6.5" fill="none" stroke="#0c6b5a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="wm">Polisvergelijker</span><span class="yr">2027</span></a>
-  <div class="seg" role="group" aria-label="Weergave licht of donker" id="theme">
-    <button data-t="auto" title="Volg systeeminstelling">Auto</button><button data-t="light">Licht</button><button data-t="dark">Donker</button></div></div>
-<header>
-  <h1>Aanvullende zorgverzekeringen 2027 vergelijken</h1>
-  <p class="sub">Vergoedingen uitgelezen uit de polisvoorwaarden en vergoedingenoverzichten 2027. Kies een behandeling om alle pakketten te vergelijken, zet pakketten naast elkaar, of laat pakketten rangschikken op jouw zorgbehoefte.</p>
-  <nav class="tabs" aria-label="Weergave">
-    <a href="#stappenplan" data-v="stappenplan">Stappenplan</a>
-    <a href="#behandeling" data-v="behandeling">Per behandeling</a>
-    <a href="#pakketten" data-v="pakketten">Pakketten naast elkaar</a>
-    <a href="#behoefte" data-v="behoefte">Mijn zorgbehoefte</a>
-  </nav>
-</header>
-<div class="filters">
-  <div><span class="lbl">Verzekeraar</span><span class="chips" id="f-label"></span></div>
-  <label class="toggle" for="f-deductible">Eigen risico <select id="f-deductible"><option value="400">€ 400 (verplicht)</option><option value="900">€ 900 (+ € 500 vrijwillig)</option></select></label>
-  <label class="toggle" for="f-free"><input type="checkbox" id="f-free"> Vrije zorgkeuze (combinatie- of restitutiepolis)</label>
-  <label class="toggle" for="f-members"><input type="checkbox" id="f-members"> Ook verzekeringen alleen voor leden (bijv. VvAA)</label>
-  <label class="toggle" for="f-check"><input type="checkbox" id="f-check" checked> Toon regels die nog gecontroleerd moeten worden</label>
-</div>
-<main>
-  <section class="view" id="v-stappenplan">
-    <div class="steps">
-      <div class="step" id="step1"><div class="sn" aria-hidden="true">1</div><div style="flex:1"><h2>Jouw uitgangspunten</h2>
-        <p class="small">Deze keuzes bepalen welke basisverzekering in de totaalprijs zit. De standaard past bij de meeste mensen.</p>
-        <div class="s1">
-          <label>Eigen risico <select id="s1-deductible"><option value="400">€ 400 (verplicht)</option><option value="900">€ 900 (+ € 500 vrijwillig)</option></select></label>
-          <label><input type="checkbox" id="s1-free"> Ik wil vrij mijn zorgverlener kiezen (combinatie- of restitutiepolis)</label>
-          <label><input type="checkbox" id="s1-members"> Ik ben lid van een vereniging met eigen zorgverzekering (bijv. VvAA)</label>
-        </div>
-        <button class="btn" id="s1-next">Klopt, verder naar stap 2</button></div></div>
-      <div class="step" id="step2"><div class="sn" aria-hidden="true">2</div><div style="flex:1"><h2>Welke zorg verwacht je in 2027?</h2>
-        <div id="step2-body"><p class="small">Voeg de zorg toe die je verwacht en vul in hoeveel. Je kunt kiezen uit alle behandelingen die in de polissen voorkomen. Bedragen zijn wat de zorgverlener je in rekening brengt.</p>
-        <div class="needs" id="plan-needs"></div><div id="plan-ctr"></div>
-        <div class="nextrow"><button class="btn" id="s2-next" disabled>Bekijk mijn resultaat</button><span class="small" id="s2-hint">Vul eerst bij minstens één zorgsoort een aantal of bedrag in, <button class="linkbtn" id="s2-base">of vergelijk alleen de basisverzekeringen</button>.</span></div></div></div></div>
-      <div class="step" id="step3"><div class="sn" aria-hidden="true">3</div><div style="flex:1"><div class="row"><h2>Wat kost het je in totaal?</h2>
-        <div class="seg" id="per-seg" role="group" aria-label="Bedragen tonen per"><button data-per="maand">Per maand</button><button data-per="jaar">Per jaar</button></div></div>
-        <div id="step3-body"><p class="small" id="plan-sum"></p>
-        <div id="plan-out"><p class="small res-note">Dit is een schatting op basis van uitgelezen polisvoorwaarden; er kunnen fouten in zitten. Controleer de voorwaarden bij de verzekeraar voordat je afsluit. <a href="#disc-h">Disclaimer</a></p><div class="tablewrap"><table id="plan-table"></table></div>
-        <section class="fns" aria-label="Bronnen"><h3>Bronnen</h3><div id="plan-fn"></div></section></div></div></div></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken</title>
+    <meta
+      name="description"
+      content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs."
+    />
+    <link rel="canonical" href="https://polisvergelijker.larsvanbraam.nl/" />
+    <meta name="theme-color" content="#0c6b5a" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Polisvergelijker" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta property="og:url" content="https://polisvergelijker.larsvanbraam.nl/" />
+    <meta property="og:title" content="Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken" />
+    <meta
+      property="og:description"
+      content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs."
+    />
+    <meta property="og:image" content="https://polisvergelijker.larsvanbraam.nl/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Polisvergelijker 2027: vergelijk aanvullende zorgverzekeringen op wat jij nodig hebt"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Polisvergelijker 2027 – aanvullende zorgverzekeringen vergelijken" />
+    <meta
+      name="twitter:description"
+      content="Vergelijk aanvullende zorgverzekeringen 2027 per behandeling: wat elke verzekeraar vergoedt voor fysio, podotherapie, alternatieve zorg en meer, met bron uit de polisvoorwaarden en totaalprijs."
+    />
+    <meta name="twitter:image" content="https://polisvergelijker.larsvanbraam.nl/og.png" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230c6b5a'/%3E%3Cpath d='M26 12h12v14h14v12H38v14H26V38H12V26h14z' fill='%23fff'/%3E%3Ccircle cx='47' cy='47' r='10' fill='%234fc2a8' stroke='%230c6b5a' stroke-width='3'/%3E%3Cpath d='M42.5 47.5l3 3 6-6.5' fill='none' stroke='%230c6b5a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="topbar">
+      <a class="brand" href="#stappenplan" aria-label="Polisvergelijker, naar het stappenplan"
+        ><svg class="logo" viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="14" fill="#0c6b5a" />
+          <path d="M26 12h12v14h14v12H38v14H26V38H12V26h14z" fill="#fff" />
+          <circle cx="47" cy="47" r="10" fill="#4fc2a8" stroke="#0c6b5a" stroke-width="3" />
+          <path
+            d="M42.5 47.5l3 3 6-6.5"
+            fill="none"
+            stroke="#0c6b5a"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          /></svg
+        ><span class="wm">Polisvergelijker</span><span class="yr">2027</span></a
+      >
+      <div class="seg" role="group" aria-label="Weergave licht of donker" id="theme">
+        <button data-t="auto" title="Volg systeeminstelling">Auto</button><button data-t="light">Licht</button
+        ><button data-t="dark">Donker</button>
+      </div>
     </div>
-  </section>
+    <header>
+      <h1>Aanvullende zorgverzekeringen 2027 vergelijken</h1>
+      <p class="sub">
+        Vergoedingen uitgelezen uit de polisvoorwaarden en vergoedingenoverzichten 2027. Kies een behandeling
+        om alle pakketten te vergelijken, zet pakketten naast elkaar, of laat pakketten rangschikken op jouw
+        zorgbehoefte.
+      </p>
+      <nav class="tabs" aria-label="Weergave">
+        <a href="#stappenplan" data-v="stappenplan">Stappenplan</a>
+        <a href="#behandeling" data-v="behandeling">Per behandeling</a>
+        <a href="#pakketten" data-v="pakketten">Pakketten naast elkaar</a>
+        <a href="#behoefte" data-v="behoefte">Mijn zorgbehoefte</a>
+      </nav>
+    </header>
+    <div class="filters">
+      <div><span class="lbl">Verzekeraar</span><span class="chips" id="f-label"></span></div>
+      <label class="toggle" for="f-deductible"
+        >Eigen risico
+        <select id="f-deductible">
+          <option value="400">€ 400 (verplicht)</option>
+          <option value="900">€ 900 (+ € 500 vrijwillig)</option>
+        </select></label
+      >
+      <label class="toggle" for="f-free"
+        ><input type="checkbox" id="f-free" /> Vrije zorgkeuze (combinatie- of restitutiepolis)</label
+      >
+      <label class="toggle" for="f-members"
+        ><input type="checkbox" id="f-members" /> Ook verzekeringen alleen voor leden (bijv. VvAA)</label
+      >
+      <label class="toggle" for="f-check"
+        ><input type="checkbox" id="f-check" checked /> Toon regels die nog gecontroleerd moeten worden</label
+      >
+    </div>
+    <main>
+      <section class="view" id="v-stappenplan">
+        <div class="steps">
+          <div class="step" id="step1">
+            <div class="sn" aria-hidden="true">1</div>
+            <div style="flex: 1">
+              <h2>Jouw uitgangspunten</h2>
+              <p class="small">
+                Deze keuzes bepalen welke basisverzekering in de totaalprijs zit. De standaard past bij de
+                meeste mensen.
+              </p>
+              <div class="s1">
+                <label
+                  >Eigen risico
+                  <select id="s1-deductible">
+                    <option value="400">€ 400 (verplicht)</option>
+                    <option value="900">€ 900 (+ € 500 vrijwillig)</option>
+                  </select></label
+                >
+                <label
+                  ><input type="checkbox" id="s1-free" /> Ik wil vrij mijn zorgverlener kiezen (combinatie- of
+                  restitutiepolis)</label
+                >
+                <label
+                  ><input type="checkbox" id="s1-members" /> Ik ben lid van een vereniging met eigen
+                  zorgverzekering (bijv. VvAA)</label
+                >
+              </div>
+              <button class="btn" id="s1-next">Klopt, verder naar stap 2</button>
+            </div>
+          </div>
+          <div class="step" id="step2">
+            <div class="sn" aria-hidden="true">2</div>
+            <div style="flex: 1">
+              <h2>Welke zorg verwacht je in 2027?</h2>
+              <div id="step2-body">
+                <p class="small">
+                  Voeg de zorg toe die je verwacht en vul in hoeveel. Je kunt kiezen uit alle behandelingen
+                  die in de polissen voorkomen. Bedragen zijn wat de zorgverlener je in rekening brengt.
+                </p>
+                <div class="needs" id="plan-needs"></div>
+                <div id="plan-ctr"></div>
+                <div class="nextrow">
+                  <button class="btn" id="s2-next" disabled>Bekijk mijn resultaat</button
+                  ><span class="small" id="s2-hint"
+                    >Vul eerst bij minstens één zorgsoort een aantal of bedrag in,
+                    <button class="linkbtn" id="s2-base">of vergelijk alleen de basisverzekeringen</button
+                    >.</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="step" id="step3">
+            <div class="sn" aria-hidden="true">3</div>
+            <div style="flex: 1">
+              <div class="row">
+                <h2>Wat kost het je in totaal?</h2>
+                <div class="seg" id="per-seg" role="group" aria-label="Bedragen tonen per">
+                  <button data-per="maand">Per maand</button><button data-per="jaar">Per jaar</button>
+                </div>
+              </div>
+              <div id="step3-body">
+                <p class="small" id="plan-sum"></p>
+                <div id="plan-out">
+                  <p class="small res-note">
+                    Dit is een schatting op basis van uitgelezen polisvoorwaarden; er kunnen fouten in zitten.
+                    Controleer de voorwaarden bij de verzekeraar voordat je afsluit.
+                    <a href="#disc-h">Disclaimer</a>
+                  </p>
+                  <div class="tablewrap"><table id="plan-table"></table></div>
+                  <section class="fns" aria-label="Bronnen">
+                    <h3>Bronnen</h3>
+                    <div id="plan-fn"></div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <section class="view" id="v-behandeling">
-    <div class="split">
-      <aside class="side" aria-label="Behandelingen">
-        <input type="search" id="q" placeholder="Zoek behandeling, bijv. podo" aria-label="Zoek behandeling">
-        <div id="treatment-list"></div>
-      </aside>
-      <div>
-        <h2 id="b-title"></h2>
-        <p class="summary" id="b-sum"></p>
+      <section class="view" id="v-behandeling">
+        <div class="split">
+          <aside class="side" aria-label="Behandelingen">
+            <input
+              type="search"
+              id="q"
+              placeholder="Zoek behandeling, bijv. podo"
+              aria-label="Zoek behandeling"
+            />
+            <div id="treatment-list"></div>
+          </aside>
+          <div>
+            <h2 id="b-title"></h2>
+            <p class="summary" id="b-sum"></p>
+            <div class="row">
+              <label class="toggle" for="b-none"
+                ><input type="checkbox" id="b-none" /> Ook pakketten zonder dekking</label
+              >
+              <span class="small">Klik op een kolomkop om te sorteren</span>
+            </div>
+            <div class="tablewrap"><table id="b-table"></table></div>
+            <section class="fns" aria-label="Bronnen">
+              <h3>Bronnen</h3>
+              <div id="b-fn"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="v-pakketten">
         <div class="row">
-          <label class="toggle" for="b-none"><input type="checkbox" id="b-none"> Ook pakketten zonder dekking</label>
-          <span class="small">Klik op een kolomkop om te sorteren</span>
+          <div>
+            <span class="lbl small">Kies 2 tot 5 pakketten</span>
+            <div class="chips" id="p-pick" style="margin-top: 6px"></div>
+          </div>
+          <label class="toggle" for="p-diff"><input type="checkbox" id="p-diff" /> Alleen verschillen</label>
         </div>
-        <div class="tablewrap"><table id="b-table"></table></div>
-        <section class="fns" aria-label="Bronnen"><h3>Bronnen</h3><div id="b-fn"></div></section>
-      </div>
-    </div>
-  </section>
+        <div class="tablewrap"><table class="matrix" id="p-table"></table></div>
+        <section class="fns" aria-label="Bronnen">
+          <h3>Bronnen</h3>
+          <div id="p-fn"></div>
+        </section>
+      </section>
 
-  <section class="view" id="v-pakketten">
-    <div class="row"><div><span class="lbl small">Kies 2 tot 5 pakketten</span><div class="chips" id="p-pick" style="margin-top:6px"></div></div>
-      <label class="toggle" for="p-diff"><input type="checkbox" id="p-diff"> Alleen verschillen</label></div>
-    <div class="tablewrap"><table class="matrix" id="p-table"></table></div>
-    <section class="fns" aria-label="Bronnen"><h3>Bronnen</h3><div id="p-fn"></div></section>
-  </section>
+      <section class="view" id="v-behoefte">
+        <div class="split">
+          <aside class="side" aria-label="Zorgbehoefte">
+            <p class="small" style="margin: 4px 6px 8px">Vink aan wat je verwacht nodig te hebben.</p>
+            <div id="n-list"></div>
+          </aside>
+          <div>
+            <div class="row">
+              <h2>Pakketten op volgorde</h2>
+              <label class="toggle" for="n-sort"
+                >Sorteer op
+                <select id="n-sort">
+                  <option value="coverage">meeste dekking</option>
+                  <option value="price">laagste totaalprijs (volledige dekking eerst)</option>
+                </select></label
+              >
+            </div>
+            <p class="summary" id="n-sum"></p>
+            <div class="rank" id="n-rank"></div>
+            <section class="fns" aria-label="Bronnen">
+              <h3>Bronnen</h3>
+              <div id="n-fn"></div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <h3>Bronnen en status</h3>
+      <div class="status" id="status"></div>
+      <p>
+        Elke waarde heeft een voetnootnummer. Onder de tabel staat per voetnoot de exacte tekst, hoe de
+        rubriek in het document heet, het artikel en een link die de PDF op de juiste pagina opent. Ook de
+        premies hebben een voetnoot met de bron. Regels met <span class="pill">controleren</span> kwamen uit
+        tabellen waarvan de kolomindeling niet eenduidig te lezen was. De polisvoorwaarden van de verzekeraar
+        zijn altijd leidend. Bedragen per 2 of 3 jaar zijn voor het sorteren omgerekend naar een bedrag per
+        jaar.
+      </p>
+      <p>
+        Totaalprijs = premie van de goedkoopste basisverzekering van hetzelfde label waar het aanvullende
+        pakket bij af te sluiten is + premie van het aanvullende pakket, per volwassene per maand, zonder
+        collectiviteitskorting en zonder tandartsverzekering (bij DSW AV-Standaard en AV-Top zit tandarts al
+        in het pakket). Kinderen tot 18 jaar zijn gratis meeverzekerd. Met "Vrije zorgkeuze" wordt alleen een
+        combinatie- of restitutiepolis gekozen. Basispremies 2027 komen van de sites van de verzekeraars;
+        aanvullende premies van Menzis komen uit vergelijkingssites en zijn nog niet bij Menzis zelf
+        gecontroleerd.
+      </p>
+      <p id="gen"></p>
+      <section class="disclaimer" aria-labelledby="disc-h">
+        <h3 id="disc-h">Disclaimer</h3>
+        <p>
+          Deze polisvergelijker is een persoonlijk hulpmiddel om aanvullende zorgverzekeringen sneller te
+          vergelijken. Het is geen advies en geen vervanging van de verzekeraar of een onafhankelijk adviseur.
+          De gegevens zijn automatisch uitgelezen uit openbare documenten van verzekeraars en kunnen fouten,
+          onvolledigheden of verouderde informatie bevatten. Ook de berekeningen in het stappenplan zijn
+          schattingen.
+        </p>
+        <p>
+          Aan de informatie op deze site kunnen geen rechten worden ontleend. Alleen de polisvoorwaarden,
+          vergoedingenoverzichten en premies van de verzekeraar zelf zijn leidend. Controleer altijd bij de
+          verzekeraar voordat je een verzekering afsluit of wijzigt. De maker aanvaardt geen aansprakelijkheid
+          voor schade of kosten die voortvloeien uit het gebruik van deze site. Deze site is niet verbonden
+          aan een zorgverzekeraar en ontvangt geen vergoeding voor doorverwijzingen.
+        </p>
+      </section>
+    </footer>
 
-  <section class="view" id="v-behoefte">
-    <div class="split">
-      <aside class="side" aria-label="Zorgbehoefte">
-        <p class="small" style="margin:4px 6px 8px">Vink aan wat je verwacht nodig te hebben.</p>
-        <div id="n-list"></div>
-      </aside>
-      <div>
-        <div class="row"><h2>Pakketten op volgorde</h2><label class="toggle" for="n-sort">Sorteer op <select id="n-sort"><option value="coverage">meeste dekking</option><option value="price">laagste totaalprijs (volledige dekking eerst)</option></select></label></div>
-        <p class="summary" id="n-sum"></p>
-        <div class="rank" id="n-rank"></div>
-        <section class="fns" aria-label="Bronnen"><h3>Bronnen</h3><div id="n-fn"></div></section>
-      </div>
-    </div>
-  </section>
-</main>
-<footer>
-  <h3>Bronnen en status</h3>
-  <div class="status" id="status"></div>
-  <p>Elke waarde heeft een voetnootnummer. Onder de tabel staat per voetnoot de exacte tekst, hoe de rubriek in het document heet, het artikel en een link die de PDF op de juiste pagina opent. Ook de premies hebben een voetnoot met de bron. Regels met <span class="pill">controleren</span> kwamen uit tabellen waarvan de kolomindeling niet eenduidig te lezen was. De polisvoorwaarden van de verzekeraar zijn altijd leidend. Bedragen per 2 of 3 jaar zijn voor het sorteren omgerekend naar een bedrag per jaar.</p>
-  <p>Totaalprijs = premie van de goedkoopste basisverzekering van hetzelfde label waar het aanvullende pakket bij af te sluiten is + premie van het aanvullende pakket, per volwassene per maand, zonder collectiviteitskorting en zonder tandartsverzekering (bij DSW AV-Standaard en AV-Top zit tandarts al in het pakket). Kinderen tot 18 jaar zijn gratis meeverzekerd. Met "Vrije zorgkeuze" wordt alleen een combinatie- of restitutiepolis gekozen. Basispremies 2027 komen van de sites van de verzekeraars; aanvullende premies van Menzis komen uit vergelijkingssites en zijn nog niet bij Menzis zelf gecontroleerd.</p>
-  <p id="gen"></p>
-  <section class="disclaimer" aria-labelledby="disc-h">
-    <h3 id="disc-h">Disclaimer</h3>
-    <p>Deze polisvergelijker is een persoonlijk hulpmiddel om aanvullende zorgverzekeringen sneller te vergelijken. Het is geen advies en geen vervanging van de verzekeraar of een onafhankelijk adviseur. De gegevens zijn automatisch uitgelezen uit openbare documenten van verzekeraars en kunnen fouten, onvolledigheden of verouderde informatie bevatten. Ook de berekeningen in het stappenplan zijn schattingen.</p>
-    <p>Aan de informatie op deze site kunnen geen rechten worden ontleend. Alleen de polisvoorwaarden, vergoedingenoverzichten en premies van de verzekeraar zelf zijn leidend. Controleer altijd bij de verzekeraar voordat je een verzekering afsluit of wijzigt. De maker aanvaardt geen aansprakelijkheid voor schade of kosten die voortvloeien uit het gebruik van deze site. Deze site is niet verbonden aan een zorgverzekeraar en ontvangt geen vergoeding voor doorverwijzingen.</p>
-  </section>
-</footer>
-
-<script>
-(function(){const root=document.documentElement,hostTheme=root.getAttribute("data-theme");
-  let t="auto";try{t=localStorage.getItem("pv-theme")||"auto"}catch(e){}
-  function apply(v){t=v;if(v==="auto"){hostTheme?root.setAttribute("data-theme",hostTheme):root.removeAttribute("data-theme")}else root.setAttribute("data-theme",v);
-    document.querySelectorAll("#theme button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===v));try{localStorage.setItem("pv-theme",v)}catch(e){}}
-  document.querySelectorAll("#theme button").forEach(b=>b.onclick=()=>apply(b.dataset.t));apply(t);})();
-const TODO=["Just Live: premie 2027 nog niet bekend","Aevitae (ook Caresq): premies aanvullend nog niet bekend","PNOzorg: geen 2027-aanbod gevonden"];
-const GONE=["Zekur: per 2027 Univé","Anderzorg: per 2027 opgegaan in Menzis","Caresq: loopt via Aevitae (Eucare)"];
-const S={deductible:400,freeChoice:false,needSort:"coverage",view:"behandeling",treatment:"Podotherapie en voetzorg",labels:new Set(),check:true,showUncovered:false,sort:{k:"val",d:-1},pick:[],diff:false,need:new Set(["Podotherapie en voetzorg","Alternatieve geneeswijzen","Fysiotherapie"])};
-let D, R, P;
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const eur=n=>n==null?"—":"€ "+n.toLocaleString("nl-NL",{minimumFractionDigits:n%1?2:0,maximumFractionDigits:2});
-const key=p=>p.label+"|"+p.package;
-const val=r=>r.eur_per_year ?? r.sessions ?? r.eur ?? (r.pct!=null?r.pct/100:null) ?? (r.covered?0.001:null);
-function unit(r){return r.eur_per_year!=null?"per jaar":r.sessions!=null?"behandelingen/uren":""}
-
-const loadData=(n=0)=>fetch("data.json",{cache:n?"reload":"default"}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).catch(e=>{if(n<2)return new Promise(ok=>setTimeout(ok,800)).then(()=>loadData(n+1));throw e});
-loadData().then(d=>{D=d;R=d.records;P=d.packages;
-  const PK=new Map(P.map(p=>[p.label+"|"+p.package,p]));
-  for(const r of R){const p=PK.get(r.label+"|"+r.package)||{};r.source=p.source||"";r.policy=p.policy||r.source;r.concern=p.concern||r.label;r.premium=p.premium??null;
-    for(const k of ["provider","conditions","ref","source_heading","coverage"])r[k]=r[k]||"";r.covered=!!r.covered;r.needs_check=!!r.needs_check;
-    for(const k of ["eur_per_year","sessions","eur","pct"])if(r[k]===undefined)r[k]=null}
-  [...new Set(P.map(p=>p.label))].forEach(l=>S.labels.add(l));
-  S.pick=["VGZ|Aanvullend Beter","DSW|AV-Standaard","Menzis|ExtraVerzorgd 2","Univé|Aanvullend Beter"].filter(k=>P.some(p=>key(p)===k));
-  initFilters();route();addEventListener("hashchange",route);
-  $("#gen").textContent=`Dataset gegenereerd op ${d.generated}: ${P.length} pakketten, ${R.length} vergoedingsregels.`;
-}).catch(e=>{console.error(e);$("main").innerHTML='<p class="empty">De vergoedingsdata kon niet worden geladen ('+String(e&&e.message||e).replace(/[<>&]/g,"")+'). Herlaad de pagina.</p>'});
-
-/* Total price: cheapest compatible base policy + supplementary package */
-function combo(p){
-  const b=(D.base[p.label]||{policies:[]}).policies.filter(x=>(x.packages==="*"||(p.mods||[p]).every(m=>x.packages.includes(m.package)))&&(!S.freeChoice||x.free_choice));
-  const prem=x=>S.deductible===900?x.p900:x.p400;
-  const opts=b.filter(x=>prem(x)!=null).sort((a,c)=>prem(a)-prem(c));
-  const base=opts[0]||null;
-  const reason=!b.length?(S.freeChoice?"geen vrije-keuzepolis":"basispolis onbekend"):!base?"premie bij € 900 eigen risico onbekend":null;
-  const total=base&&p.premium!=null?Math.round((prem(base)+p.premium)*100)/100:null;
-  return {base,basePremium:base?prem(base):null,total,reason:reason||(p.premium==null?"premie aanvullend onbekend":null)};
-}
-const packageOf=r=>P.find(p=>p.label===r.label&&p.package===r.package);
-const SITE={"Aevitae":"https://www.aevitae.com","a.s.r.":"https://www.asr.nl","CZ":"https://www.cz.nl","CZdirect":"https://www.czdirect.nl","De Friesland":"https://www.defriesland.nl","DSW":"https://www.dsw.nl","FBTO":"https://www.fbto.nl","Interpolis":"https://www.interpolis.nl","IZA":"https://www.iza.nl","Just":"https://www.just.nl","Menzis":"https://www.menzis.nl","Nationale-Nederlanden":"https://www.nn.nl","OHRA":"https://www.ohra.nl","ONVZ":"https://www.onvz.nl","Salland":"https://www.salland.nl","Stad Holland":"https://www.stadholland.nl","Univé":"https://www.unive.nl","VGZ":"https://www.vgz.nl","VvAA":"https://www.vvaa.nl","Zilveren Kruis":"https://www.zilverenkruis.nl","Zorg en Zekerheid":"https://www.zorgenzekerheid.nl"};
-const siteLink=l=>SITE[l]?` <a class="site" href="${SITE[l]}" target="_blank" rel="noopener">naar ${esc(l)} ↗</a>`:"";
-function purchaseLine(p,c){return (c.base?`${esc(c.base.name)} <span class="small">(${esc(c.base.type)}, ${eur(c.basePremium)})</span> + ${esc(p.label)} ${esc(p.package)} <span class="small">(${eur(p.premium)})</span>`:`<span class="small">${esc(c.reason)}</span>`)+siteLink(p.label)}
-function totalCell(c){return c.total!=null?`<b class="mono">${eur(c.total)}</b><div class="small mono">${eur(c.total*12)} p/j</div>`:`<span class="small">n.b.</span>`}
-/* Footnotes: every value links to its source document + article/page */
-let FN=[];
-function docName(u){if(!u)return"bron";try{const p=new URL(u);const f=decodeURIComponent(p.pathname.split("/").pop()||p.hostname);return p.hostname.replace(/^www\./,"")+" › "+f}catch(e){return u}}
-function pageOf(ref){const m=String(ref||"").match(/p\.?\s*(\d+)/)||String(ref||"").match(/^(\d+)/);return m?m[1]:null}
-function srcUrl(r){const u=r.policy||r.source||"";const pg=pageOf(r.ref);return pg&&/\.pdf/i.test(u)?u+"#page="+pg:u}
-function fn(html){let i=FN.indexOf(html);if(i<0){FN.push(html);i=FN.length-1}return `<sup class="fn"><a href="#fn-${S.view}-${i+1}" id="fr-${S.view}-${i+1}">${i+1}</a></sup>`}
-function fnRec(r){return fn(`<b>${esc(r.label)} ${esc(r.package)}</b> · ${esc(r.treatment)}: “${esc(r.coverage)}”. In de bron als <i>${esc(r.source_heading)}</i>, ${esc(r.ref||"")}. <a href="${esc(srcUrl(r))}">${esc(docName(r.policy||r.source))}${pageOf(r.ref)?", pagina "+pageOf(r.ref):""}</a>`)}
-function fnPremium(p,c){const b=D.base[p.label]||{};let h=`<b>Premies ${esc(p.label)} ${esc(p.package)}</b>: `;
-  h+=c.base?`basisverzekering ${esc(c.base.name)} ${eur(c.basePremium)} (eigen risico € ${S.deductible}) – <a href="${esc(b.source||"")}">${esc(docName(b.source))}</a>`:"basisverzekering onbekend";
-  h+=`; aanvullend ${eur(p.premium)}`+(b.supplementary_source?` – <a href="${esc(b.supplementary_source)}">${esc(docName(b.supplementary_source))}</a>`:" (bron nog niet vastgesteld)")+(b.note?`. ${esc(b.note)}`:"");return fn(h)}
-function fnList(){return FN.length?`<ol class="fnlist">${FN.map((h,i)=>`<li id="fn-${S.view}-${i+1}">${h} <a href="#fr-${S.view}-${i+1}" aria-label="Terug naar tekst">↩</a></li>`).join("")}</ol>`:""}
-function cut(t,n){t=String(t||"");if(t.length<=n)return t;const i=t.lastIndexOf(" ",n);return t.slice(0,i>40?i:n)+"…"}
-function shortValue(v){v=String(v||"");const first=v.split(/;\s|\.\s(?=[A-Z])/)[0];if(first.length===v.length&&v.length<=95)return esc(v);
-  return `${esc(cut(first,95))}<details class="more"><summary>volledige tekst</summary><div>${esc(v)}</div></details>`}
-function more(provider,conditions){const t=[provider,conditions].filter(Boolean).join(" · ");if(!t)return'<span class="small">Niet gespecificeerd</span>';
-  if(t.length<=80)return `<span class="small">${esc(t)}</span>`;
-  return `<span class="small">${esc(cut(t,80))}</span><details class="more"><summary>meer</summary><div>${esc(t)}</div></details>`}
-
-/* ---------- Step-by-step plan ---------- */
-const NEEDS=[
- {id:"physio",treatment:"Fysiotherapie",label:"Fysiotherapie",kind:"sessions",unit:"behandelingen",def:0,rate:42,hint:"± € 42 per behandeling"},
- {id:"podiatry",treatment:"Podotherapie en voetzorg",label:"Podotherapie / voetzorg",kind:"eur",unit:"€ per jaar",def:0},
- {id:"insoles",treatment:"Steunzolen",label:"Steunzolen",kind:"eur",unit:"€ per jaar",def:0},
- {id:"alternative",treatment:"Alternatieve geneeswijzen",label:"Alternatieve zorg (osteopaat, acupunctuur, homeopaat…)",kind:"visits",unit:"consulten",def:0,rate:75,hint:"± € 75 per consult"},
- {id:"glasses",treatment:"Brillen en lenzen volwassenen",label:"Bril of lenzen",kind:"eur",unit:"€ per jaar",def:0},
- {id:"psychology",treatment:"Psychologische zorg / mentale ondersteuning",label:"Psychologische zorg (aanvullend)",kind:"eur",unit:"€ per jaar",def:0},
- {id:"mindfulness",treatment:"Mindfulness bij burn-out",label:"Mindfulnesstraining",kind:"eur",unit:"€ per jaar",def:0},
- {id:"dietitian",treatment:"Diëtetiek",label:"Diëtist (boven de basis)",kind:"eur",unit:"€ per jaar",def:0},
- {id:"contraception",treatment:"Anticonceptie",label:"Anticonceptie (21+)",kind:"eur",unit:"€ per jaar",def:0,hint:"pil ± € 60 per jaar"},
- {id:"dentist",treatment:"Tandarts (aanvullend)",label:"Tandarts (18+)",kind:"eur",unit:"€ per jaar",def:0,hint:"alleen als tandarts in het pakket zit"},
- {id:"orthodontics",treatment:"Orthodontie",label:"Orthodontie (beugel)",kind:"eur",unit:"€ totaal",def:0},
- {id:"travel_vaccines",treatment:"Vaccinaties buitenland",label:"Reisvaccinaties",kind:"eur",unit:"€ per jaar",def:0},
-];
-S.plan=S.plan||{};
-S.chosen=S.chosen||[];   // ids of the chosen needs
-const SYN={"Osteopathie":"Alternatieve geneeswijzen","Acupunctuur":"Alternatieve geneeswijzen","Chiropractie":"Alternatieve geneeswijzen","Homeopathie":"Alternatieve geneeswijzen","Haptotherapie":"Alternatieve geneeswijzen","Natuurgeneeskunde":"Alternatieve geneeswijzen","Manuele therapie":"Fysiotherapie","Oefentherapie":"Fysiotherapie","Psycholoog":"Psychologische zorg / mentale ondersteuning","Beugel":"Orthodontie","Podoloog":"Podotherapie en voetzorg","Pedicure":"Pedicure bij diabetes","Contactlenzen":"Brillen en lenzen volwassenen","Laseren ogen":"Ooglaseren","Huidtherapie":"Acne / huidbehandelingen","Epileren":"Ontharing (hirsutisme)","Kraamzorg":"Kraamzorg eigen bijdrage","Borstvoeding":"Lactatiekundige","Sportarts":"Sportmedisch onderzoek","Hoortoestel":"Hoortoestellen eigen bijdrage"};
-function needDef(id){const n=NEEDS.find(x=>x.id===id);if(n)return n;
-  return {id,treatment:id.slice(2),label:id.slice(2),kind:"eur",unit:"€ per jaar"}}  // custom need: id is "t:<treatment>"
-function allTreatments(){const m=new Map();for(const r of rows()){if(!m.has(r.treatment))m.set(r.treatment,{g:r.category,n:0});if(r.covered)m.get(r.treatment).n++}return m}
-function renderPlanInputs(){
-  const chosen=S.chosen.map(needDef);
-  const cards=chosen.map(n=>`<div class="need"><div class="nh"><label for="nd-${esc(n.id)}">${esc(n.label)}</label><button class="x" data-rm="${esc(n.id)}" aria-label="${esc(n.label)} verwijderen" title="Verwijderen">×</button></div>
-    <div class="in"><input type="number" min="0" step="1" id="nd-${esc(n.id)}" data-id="${esc(n.id)}" value="${S.plan[n.id]||""}" placeholder="0"> ${esc(n.unit)}</div>
-    <div class="small">${n.hint?esc(n.hint):"&nbsp;"}</div>
-    <input class="prov" data-prov="${esc(n.id)}" value="${esc(S.providers[n.id]||"")}" placeholder="Eigen zorgverlener (optioneel)" aria-label="Eigen zorgverlener voor ${esc(n.label)}"></div>`).join("");
-  const m=allTreatments(),taken=new Set(chosen.map(n=>n.treatment));
-  const quick=NEEDS.filter(n=>!S.chosen.includes(n.id));
-  const opts=[...m].filter(([b])=>!taken.has(b)).sort((a,b)=>a[1].g.localeCompare(b[1].g)||b[1].n-a[1].n);
-  let og="",cur="";for(const [b,o] of opts){if(o.g!==cur){og+=(cur?"</optgroup>":"")+`<optgroup label="${esc(o.g)}">`;cur=o.g}og+=`<option value="${esc(b)}">${esc(b)} (${o.n} pakketten)</option>`}
-  $("#plan-needs").innerHTML=cards+`<div class="need add"><label for="nd-add">Zorg toevoegen</label>
-    <input list="nd-list" id="nd-add" placeholder="Zoek, bijv. osteopathie, ergotherapie, acne…" autocomplete="off">
-    <datalist id="nd-list">${Object.keys(SYN).filter(k=>!taken.has(SYN[k])).map(k=>`<option value="${esc(k)}">valt onder ${esc(SYN[k])}</option>`).join("")}${opts.map(([b,o])=>`<option value="${esc(b)}">${esc(o.g)}</option>`).join("")}</datalist>
-    <div class="chips">${quick.map(n=>`<button class="chip" data-add="${n.id}">+ ${esc(n.label.split(" (")[0])}</button>`).join("")}</div></div>`;
-  const box=$("#plan-needs");
-  box.oninput=e=>{const id=e.target.dataset.id;if(id){S.plan[id]=+e.target.value||0;renderPlanResult();return}
-    const pv=e.target.dataset.prov;if(pv!==undefined){S.providers[pv]=e.target.value.trim();saveCtr();clearTimeout(box._t);box._t=setTimeout(()=>{renderCtr();renderPlanResult()},250);return}
-    if(e.target.id==="nd-add"){const v=e.target.value;if(SYN[v])addNeed(SYN[v]);else if(m.has(v))addNeed(v)}};
-  box.onclick=e=>{const a=e.target.closest("[data-add]"),r=e.target.closest("[data-rm]");
-    if(a){const id=a.dataset.add;S.chosen.push(id);renderPlan();setTimeout(()=>{const el=document.getElementById("nd-"+id);if(el)el.focus()},0)}
-    if(r){S.chosen=S.chosen.filter(x=>x!==r.dataset.rm);delete S.plan[r.dataset.rm];renderPlan()}};
-}
-function addNeed(b){const preset=NEEDS.find(n=>n.treatment===b);const id=preset?preset.id:"t:"+b;if(!S.chosen.includes(id))S.chosen.push(id);renderPlan();
-  setTimeout(()=>{const el=document.getElementById("nd-"+id);if(el)el.focus()},0)}
-function perVisitCap(t){const m=String(t).match(/€\s?([\d.]+(?:,\d+)?)[,\-]*\s*per\s*(dag|behandel)/i);return m?parseFloat(m[1].replace(/\./g,"").replace(",",".")):null}
-function pctOf(r){const t=String(r.coverage);const m=t.match(/^(\d+)\s?%/)||t.match(/\b(\d{2})%\s*(tot|van|,)/);return m?Math.min(100,+m[1]):100}
-/* Contract with the user's own provider, per concern (contracts usually apply to all labels of a concern) */
-const CTR_GROUPS=[
- {group:"Achmea",labels:["Zilveren Kruis","Interpolis","FBTO","De Friesland"]},
- {group:"CZ groep",labels:["CZ","CZdirect","OHRA","Nationale-Nederlanden","Just"]},
- {group:"VGZ",labels:["VGZ","Univé","IZA"]},
- {group:"DSW",labels:["DSW","Stad Holland"]},
- {group:"a.s.r.",labels:["a.s.r.","VvAA"]},
- {group:"Menzis",labels:["Menzis"]},{group:"ONVZ",labels:["ONVZ"]},{group:"Zorg en Zekerheid",labels:["Zorg en Zekerheid"]},
- {group:"ENO",labels:["Salland"]},{group:"Eucare",labels:["Aevitae"]}];
-const FINDER_URL={"Zilveren Kruis":"https://zorgzoeker.zilverenkruis.nl/","Interpolis":"https://zorgzoeker.interpolis.nl/","FBTO":"https://zorgzoeker.fbto.nl/","De Friesland":"https://www.defriesland.nl/zorgwijzer/vind-uw-zorgverlener",
- "CZ":"https://www.cz.nl/zorgvinder","CZdirect":"https://www.cz.nl/zorgvinder","Just":"https://www.cz.nl/zorgvinder","OHRA":"https://www.ohra.nl/zorgverzekering/zorgverlener-zoeken","Nationale-Nederlanden":"https://www.nn.nl/zorgvinder",
- "VGZ":"https://www.vgz.nl/zorgzoeker","Univé":"https://www.unive.nl/zorgzoeker","IZA":"https://www.iza.nl/zorgzoeker",
- "DSW":"https://www.dsw.nl/Consumenten/Vergoedingen/zorgzoeker","Stad Holland":"https://www.stadholland.nl/Consumenten/Vergoedingen/zorgzoeker",
- "a.s.r.":"https://zorgzoeker.asr.nl/","VvAA":"https://zorgzoeker.asr.nl/","Menzis":"https://www.menzis.nl/zorgvinder","ONVZ":"https://www.onvz.nl/zorgzoeker",
- "Zorg en Zekerheid":"https://www.zorgenzekerheid.nl/zorgzoeker","Salland":"https://salland.z-zoeker.nl/","Aevitae":"https://www3.aevitae.com/zoek-eucare-zorgverlener"};
-const groupOf=l=>(CTR_GROUPS.find(x=>x.labels.includes(l))||{group:l}).group;
-S.providers={};S.contracts={};try{const o=JSON.parse(localStorage.getItem("pv-contracts")||"{}");S.providers=o.providers||{};S.contracts=o.contracts||{}}catch(e){}
-function saveCtr(){try{localStorage.setItem("pv-contracts",JSON.stringify({providers:S.providers,contracts:S.contracts}))}catch(e){}}
-/* reimbursement factor without a contract, taken from the policy text; null = not described */
-function noCtrFactor(r){const t=(r.provider||"")+" "+(r.conditions||"")+" "+(r.coverage||"");
-  const m=t.match(/(zonder contract|niet[- ]gecontracteerd\w*)[^%;]*?(\d{1,3})\s?%/i);if(m)return Math.min(100,+m[2])/100;
-  if(/(alleen|uitsluitend)[^.;]*gecontracteerd|als je \w+ met \S+ een contract heeft|recht op deze vergoeding als[^.]*contract/i.test(t))return 0;
-  return null}
-function ctrState(n,label){return S.providers[n.id]?(S.contracts[n.id+"|"+groupOf(label)]||"?"):null}
-function renderCtr(){const box=$("#plan-ctr");if(!box)return;
-  const needs=S.chosen.map(needDef).filter(n=>S.providers[n.id]);
-  if(!needs.length){box.innerHTML="";return}
-  const act=new Set(activePackages().map(p=>p.label));const groups=CTR_GROUPS.map(g=>({...g,labels:g.labels.filter(l=>act.has(l))})).filter(g=>g.labels.length);
-  let h=`<div class="ctr"><h3>Heeft jouw zorgverlener een contract?</h3><p class="small">Contracten verschillen per verzekeraar en staan niet in de polisvoorwaarden. Zoek je zorgverlener op via de link (met <i>kopieer</i> zet je de naam op je klembord) en kies wat de zorgzoeker zegt. Labels van één concern delen meestal hun contracten; de berekening hieronder gebruikt dan de vergoeding zónder contract als die in de polis staat.</p>
-  <table><thead><tr><th>Verzekeraar</th>${needs.map(n=>`<th data-short="${esc(n.label.split(" (")[0])}">${esc(n.label.split(" (")[0])}: ${esc(S.providers[n.id])} <button class="cp" data-cp="${esc(S.providers[n.id])}">kopieer</button></th>`).join("")}</tr></thead><tbody>`;
-  for(const g of groups){h+=`<tr><td><b>${esc(g.group)}</b><div class="small">${g.labels.map(l=>FINDER_URL[l]?`<a href="${esc(FINDER_URL[l])}" target="_blank" rel="noopener">${esc(l)} ↗</a>`:esc(l)).join(" · ")}</div></td>`+
-    needs.map(n=>{const k=n.id+"|"+g.group,v=S.contracts[k]||"?";return `<td><select data-ctr="${esc(k)}" class="${v==="yes"?"yes":v==="no"?"no":""}" aria-label="Contract ${esc(g.group)} – ${esc(S.providers[n.id])}"><option value="?"${v==="?"?" selected":""}>Nog niet gecheckt</option><option value="yes"${v==="yes"?" selected":""}>Contract</option><option value="no"${v==="no"?" selected":""}>Geen contract</option></select></td>`}).join("")+"</tr>"}
-  box.innerHTML=h+"</tbody></table></div>";cardify(box.querySelector("table"),{main:0,full:needs.map((_,i)=>i+1)});
-  if(matchMedia("(max-width:700px)").matches)box.querySelector("table").insertAdjacentHTML("beforebegin",`<div class="cps small">${needs.map(n=>`${esc(n.label.split(" (")[0])}: <b>${esc(S.providers[n.id])}</b> <button class="cp" data-cp="${esc(S.providers[n.id])}">kopieer</button>`).join("<br>")}</div>`);
-  box.onchange=e=>{const k=e.target.dataset.ctr;if(!k)return;S.contracts[k]=e.target.value;e.target.className=e.target.value==="yes"?"yes":e.target.value==="no"?"no":"";saveCtr();renderPlanResult()};
-  box.onclick=e=>{const c=e.target.closest("[data-cp]");if(!c)return;try{navigator.clipboard.writeText(c.dataset.cp);c.textContent="gekopieerd";setTimeout(()=>c.textContent="kopieer",1200)}catch(err){}}}
-/* Mobile: tables as cards; labels from the header, main column full width */
-function cardify(t,{main=0,full=[],hide=[],sortable=false}={}){if(!t)return;t.classList.add("cards");t.classList.toggle("sortable",sortable);
-  const hs=[...t.querySelectorAll("thead th")].map(th=>th.dataset.short||th.textContent.replace(/[↑↓]/g,"").trim());
-  for(const tr of t.querySelectorAll("tbody tr")){const tds=[...tr.children];if(tds.length===1){tds[0].classList.add("c-full");continue}
-    tds.forEach((td,i)=>{if(hs[i])td.dataset.l=hs[i];if(hide.includes(i))td.classList.add("c-hide");if(i===main)td.classList.add("c-main","c-full");if(full.includes(i))td.classList.add("c-full")});
-    if(hide.length&&tds[main]&&!tds[main].querySelector(".rkm")){const rk=tds[hide[0]].textContent.trim();if(rk)tds[main].insertAdjacentHTML("afterbegin",`<span class="rkm">${esc(rk)}</span>`)}}}
-function estimate(p,cell,look){ // estimated reimbursement for all entered needs
-  look=look||(b=>cell.get(key(p)+"|"+b));const groups=new Map();let detail=[];
-  for(const n of S.chosen.map(needDef)){const q=S.plan[n.id]||0;if(!q)continue;
-    const cost=n.kind==="eur"?q:q*n.rate;
-    const r=look(n.treatment);
-    if(!r||!r.covered){detail.push({n,cost,paid:0,r:null});continue}
-    let c=cost;
-    if(n.kind==="sessions"){const mb=String(r.coverage).match(/(\d+)\s*behandelingen/);if(mb)c=Math.min(q,+mb[1])*n.rate}
-    if(n.kind==="visits"){const pd=perVisitCap(r.coverage);if(pd)c=q*Math.min(n.rate,pd)}
-    c=c*pctOf(r)/100;
-    let contractNote=null;const st=ctrState(n,p.label);
-    if(st==="no"){const f=noCtrFactor(r);contractNote=f==null?"geen contract: vergoeding zonder contract staat niet in de polistekst":f===0?"geen contract: geen vergoeding":`geen contract: ${Math.round(f*100)}%`;if(f!=null)c=c*f}
-    else if(st==="yes")contractNote="contract";
-    const g=r.source_heading+"|"+r.ref; // one shared budget per source heading
-    const cap=r.eur_per_year??(r.sessions==null?r.eur:null);
-    const o=groups.get(g)||{cap,used:0};
-    let paid=c; if(o.cap!=null)paid=Math.max(0,Math.min(c,o.cap-o.used)); o.used+=paid; groups.set(g,o);
-    detail.push({n,cost,paid,r,contractNote})}
-  const reimbursed=detail.reduce((s,d)=>s+d.paid,0),costs=detail.reduce((s,d)=>s+d.cost,0);
-  return {reimbursed,costs,detail}}
-S.per=S.per||"maand";
-function money(yr){const m=yr/12;const main=S.per==="maand"?m:yr,other=S.per==="maand"?yr:m;
-  return `${eur(Math.round(main*100)/100)}<span class="alt">${eur(Math.round(other))} ${S.per==="maand"?"per jaar":"per maand"}</span>`}
-function syncS1(){const dd=$("#s1-deductible");if(!dd)return;dd.value=String(S.deductible);$("#s1-free").checked=!!S.freeChoice;$("#s1-members").checked=!!S.members;
-  const fw=(id,f)=>{const el=$(id);el.onchange=()=>{const t=$(f);if(t.type==="checkbox")t.checked=el.checked;else t.value=el.value;t.dispatchEvent(new Event("change"))}};
-  fw("#s1-deductible","#f-deductible");fw("#s1-free","#f-free");fw("#s1-members","#f-members");
-  $("#s1-next").onclick=()=>{S.s1done=true;renderPlan();
-    $("#step2").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});
-    setTimeout(()=>{const c=document.querySelector("#plan-needs [data-add]");if(c)c.focus({preventScroll:true})},350)};
-  $("#s2-base").onclick=()=>{S.showBase=true;renderPlanResult();renderSteps();$("#step3").scrollIntoView({behavior:"smooth",block:"start"})};
-  $("#s2-next").onclick=()=>{S.s2done=true;renderPlanResult();renderSteps();
-    $("#step3").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"})}}
-function renderSteps(){const d=!!S.s1done;
-  const filled=S.chosen.some(id=>S.plan[id]>0),d2=d&&S.s2done&&filled;
-  const nb=$("#s2-next");nb.disabled=!filled;$("#s2-hint").hidden=filled;nb.hidden=d2;
-  $("#step3-body").hidden=!d2&&!S.showBase;
-  $("#step1").classList.toggle("current",!d);$("#step1").classList.toggle("done",d);$("#s1-next").hidden=d;
-  $("#step2-body").hidden=!d;if(!d)$("#step3-body").hidden=true;
-  if(d){$("#step2").classList.toggle("current",!d2);$("#step2").classList.toggle("done",d2);
-    $("#step3").classList.toggle("current",d2||!!S.showBase);$("#step3").classList.toggle("pending",!d2&&!S.showBase);
-    if(!d2&&!S.showBase)$("#per-seg").hidden=true}
-  if(!d){for(const i of ["#step2","#step3"]){$(i).classList.remove("current","done");$(i).classList.add("pending")}$("#per-seg").hidden=true}
-  else $("#step2").classList.remove("pending")}
-function renderPlan(){FN=[];syncS1();renderPlanInputs();renderCtr();
-  document.querySelectorAll("#per-seg button").forEach(b=>{b.setAttribute("aria-pressed",b.dataset.per===S.per);b.onclick=()=>{S.per=b.dataset.per;renderPlan()}});
-  renderPlanResult();renderSteps()}
-/* Modular insurers (FBTO): cheapest combination of separate modules for the entered needs */
-function modBest(cell,score){const out=[];const needs=S.chosen.map(needDef).filter(n=>S.plan[n.id]);
-  for(const l of new Set(activePackages().filter(p=>p.module).map(p=>p.label))){
-    const fam=new Map();for(const p of activePackages().filter(p=>p.label===l&&p.module&&p.premium!=null)){
-      if(!needs.some(n=>{const r=cell.get(key(p)+"|"+n.treatment);return r&&r.covered}))continue;
-      if(!fam.has(p.module))fam.set(p.module,[]);fam.get(p.module).push(p)}
-    let combos=[[]];for(const opts of fam.values())combos=combos.flatMap(c=>[c,...opts.map(o=>[...c,o])]);
-    let best=null;for(const mods of combos){if(!mods.length)continue;
-      const v={label:l,package:mods.map(m=>m.package).join(" + "),premium:Math.round(mods.reduce((s,m)=>s+m.premium,0)*100)/100,mods,source:mods[0].source,policy:mods[0].policy,module:"combination"};
-      const x=score(v,b=>{for(const m of mods){const r=cell.get(key(m)+"|"+b);if(r&&r.covered)return r}return null});
-      if(x.yearly!=null&&(!best||x.yearly<best.yearly))best=x}
-    if(best)out.push(best)}
-  return out}
-function renderPlanResult(){if(!S.s1done){renderSteps();return}setTimeout(renderSteps,0);
-  FN=[];const rs=rows(),cell=new Map(rs.map(r=>[key(r)+"|"+r.treatment,r]));
-  const score=(p,look)=>{const c=combo(p);const e=estimate(p,cell,look);
-    const yearly=c.total!=null?c.total*12+(e.costs-e.reimbursed):null;return {p,c,e,yearly}};
-  const list=activePackages().filter(p=>!p.module).map(p=>score(p)).concat(modBest(cell,score)).filter(x=>x&&x.yearly!=null).sort((a,b)=>a.yearly-b.yearly);
-  // reference: base insurance only
-  const bases=[];for(const [l,b] of Object.entries(D.base)){if(!labelOn(l))continue;for(const x of b.policies){if(S.freeChoice&&!x.free_choice)continue;const pr=S.deductible===900?x.p900:x.p400;if(pr!=null&&!bases.some(y=>y.x.name===x.name))bases.push({l,x,pr,source:x.premium_source||b.source})}}
-  bases.sort((a,b)=>a.pr-b.pr);const costs=list[0]?list[0].e.costs:S.chosen.map(needDef).reduce((s,n)=>s+(S.plan[n.id]||0)*(n.kind==="eur"?1:n.rate),0);
-  const ref=bases[0]?{name:bases[0].x.name,yearly:bases[0].pr*12+costs,pr:bases[0].pr,source:bases[0].source}:null;
-  const best=list[0];
-  $("#plan-sum").innerHTML=best?`Je verwacht ongeveer <b>${eur(costs)}</b> aan zorgkosten. Goedkoopst in totaal: <b>${esc(best.c.base.name)} + ${esc(best.p.label)} ${esc(best.p.package)}</b> voor ${eur(Math.round(best.yearly/12*100)/100)} per maand, ${eur(Math.round(best.yearly))} per jaar (premie plus wat je zelf betaalt).`+(ref?` Alleen een basisverzekering (${esc(ref.name)}) kost je ${eur(Math.round(ref.yearly/12*100)/100)} per maand (${eur(Math.round(ref.yearly))} per jaar); ${ref.yearly<=best.yearly?"<b>een aanvullende verzekering loont dan niet</b>.":`een aanvullend pakket bespaart je dus ${eur(Math.round(ref.yearly-best.yearly))} per jaar.`}`:""):"Geen pakketten met bekende premie bij deze filters.";
-  const noNeed=!S.chosen.some(id=>S.plan[id]>0);
-  $("#step2").classList.toggle("current",noNeed);$("#step2").classList.toggle("done",!noNeed);
-  $("#step3").classList.toggle("current",!noNeed||!!S.showBase);
-  $("#step3").classList.toggle("pending",noNeed&&!S.showBase);$("#plan-out").hidden=noNeed&&!S.showBase;$("#per-seg").hidden=noNeed&&!S.showBase;
-  if(noNeed&&!S.showBase){
-    $("#plan-sum").innerHTML=`<span class="empty-step">Nog niets ingevuld. Kies bij stap 2 welke zorg je in 2027 verwacht en vul in hoeveel; dan zie je hier welk pakket in totaal het voordeligst is.</span> <button class="linkbtn" id="show-base">Of vergelijk alleen de basisverzekeringen</button>`;
-    $("#show-base").onclick=()=>{S.showBase=true;renderPlanResult()};return}
-  if(noNeed){ // no needs entered: ranking of base insurances only
-    $("#plan-sum").innerHTML=bases.length?`Je hebt geen zorg ingevuld, dus een aanvullende verzekering levert je niets op. Goedkoopste basisverzekering: <b>${esc(bases[0].x.name)}</b> voor ${eur(bases[0].pr)} per maand (${eur(Math.round(bases[0].pr*12))} per jaar), bij een eigen risico van € ${S.deductible}${S.freeChoice?" en vrije zorgkeuze":""}. Vul hierboven zorg in om aanvullende pakketten mee te vergelijken. <button class="linkbtn" id="hide-base">Verbergen</button>`:"Geen basisverzekeringen met bekende premie bij deze filters.";
-    {const hb=$("#hide-base");if(hb)hb.onclick=()=>{S.showBase=false;renderPlanResult()}}
-    const P2=S.per==="maand"?"per maand":"per jaar";
-    const oonCell=x=>x.out_of_network?`<b>${esc(x.out_of_network)}</b>${fn(`<b>Vergoeding zonder contract ${esc(x.name)}</b>: ${esc(x.out_of_network)}${x.out_of_network_note?" ("+esc(x.out_of_network_note)+")":""} van het gemiddeld gecontracteerde of marktconforme tarief – <a href="${esc(x.out_of_network_source)}">${esc(docName(x.out_of_network_source))}</a>${x.out_of_network_check?". Bron is een vergelijkingssite of een ouder overzicht; controleer bij de verzekeraar.":""}`)}${x.out_of_network_note?`<div class="small">${esc(x.out_of_network_note)}</div>`:""}${x.out_of_network_check?' <span class="pill">controleren</span>':""}`:'<span class="small">onbekend</span>';
-    $("#plan-table").innerHTML=`<thead><tr><th>#</th><th>Basisverzekering</th><th>Soort polis</th><th>Zonder contract</th><th>Premie ${P2}</th></tr></thead><tbody>`+bases.slice(0,25).map((x,i)=>`<tr class="${i===0?"best-row":""}"><td class="rk">${i+1}</td><td><b>${esc(x.x.name)}</b>${fn(`<b>Premie ${esc(x.x.name)}</b>: ${eur(x.pr)} per maand bij eigen risico € ${S.deductible} – <a href="${esc(x.source)}">${esc(docName(x.source))}</a>`)}<div class="small">${esc(x.l)}${/alleen voor/i.test((D.base[x.l]||{}).note||"")?' <span class="pill">alleen voor leden</span>':""}${siteLink(x.l)}</div></td><td>${esc(x.x.type)}</td><td>${oonCell(x.x)}</td><td class="num"><b>${money(x.pr*12)}</b></td></tr>`).join("")+"</tbody>";cardify($("#plan-table"),{main:1,hide:[0]});
-    $("#plan-fn").innerHTML=fnList()+`<p class="small">Basispremies voor 18 jaar en ouder. <i>Zonder contract</i> is wat de polis maximaal vergoedt bij een zorgverlener zonder contract, als percentage van het gemiddeld gecontracteerde tarief (bij combinatiepolissen: marktconform tarief). Met contract is het bij elke polis 100%; vink vrije zorgkeuze aan om alleen combinatie- en restitutiepolissen te zien.</p>`;
-    return}
-  if(ref&&best&&ref.yearly<=best.yearly)$("#plan-sum").innerHTML=`Je verwacht ongeveer <b>${eur(costs)}</b> aan zorgkosten. <b>Een aanvullende verzekering loont dan niet</b>: alleen ${esc(ref.name)} kost je ${eur(Math.round(ref.yearly/12*100)/100)} per maand (${eur(Math.round(ref.yearly))} per jaar, inclusief wat je zelf betaalt). Het voordeligste aanvullende pakket, ${esc(best.p.label)} ${esc(best.p.package)}, komt uit op ${eur(Math.round(best.yearly/12*100)/100)} per maand.`;
-  const top=list.slice(0,15);
-  const P=S.per==="maand"?"per maand":"per jaar";
-  let h=`<thead><tr><th>#</th><th>Wat je afsluit</th><th>Premie ${P}</th><th>Verwachte vergoeding</th><th>Zelf betalen</th><th>Totaal ${P}</th></tr></thead><tbody>`;
-  if(ref)h+=`<tr class="ref-row"><td class="rk">–</td><td>Alleen ${esc(ref.name)}${fn(`<b>Premie ${esc(ref.name)}</b>: ${eur(ref.pr)} per maand – <a href="${esc(ref.source)}">${esc(docName(ref.source))}</a>`)}<div class="small">Geen aanvullende verzekering (referentie)</div></td><td class="num">${money(ref.pr*12)}</td><td class="num">€ 0</td><td class="num">${money(costs)}</td><td class="num"><b>${money(ref.yearly)}</b></td></tr>`;
-  h+=top.map((x,i)=>`<tr class="${i===0?"best-row":""}"><td class="rk">${i+1}</td>
-    <td><b>${esc(x.p.label)} ${esc(x.p.package)}</b>${fnPremium(x.p,x.c)}${/alleen voor/i.test((D.base[x.p.label]||{}).note||"")?' <span class="pill">alleen voor leden</span>':""}${x.p.mods?' <span class="pill">losse modules</span>':""}<div class="small">Afsluiten: ${purchaseLine(x.p,x.c)}</div>
-      <details class="more"><summary>wat wordt vergoed</summary><div>${x.e.detail.length?"":"Je hebt nog geen zorg ingevuld; vul bij stap 2 een aantal of bedrag in."}${x.e.detail.map(d=>`${esc(d.n.label)}: ${eur(Math.round(d.paid))} van ${eur(d.cost)}${d.r?fnRec(d.r):" (niet gedekt)"}${d.contractNote?` <span class="small${/^geen/.test(d.contractNote)?" warn-t":""}">(${esc(d.contractNote)})</span>`:""}`).join("<br>")}</div></details></td>
-    <td class="num">${money(x.c.total*12)}</td><td class="num">${money(x.e.reimbursed)}</td><td class="num">${money(x.e.costs-x.e.reimbursed)}</td><td class="num"><b>${money(x.yearly)}</b></td></tr>`).join("");
-  $("#plan-table").innerHTML=h+"</tbody>";cardify($("#plan-table"),{main:1,hide:[0]});
-  $("#plan-fn").innerHTML=fnList()+`<p class="small">Schatting: fysiotherapie gerekend met € 42 en alternatieve consulten met € 75 per keer. Vergoedingen die samen één budget delen (bijvoorbeeld podotherapie en steunzolen) zijn één keer gemaximeerd. Tandartsverzekeringen die je apart afsluit en pakketten zonder bekende premie zitten niet in deze ranglijst. Bij FBTO, dat met losse modules werkt, kiest het stappenplan zelf de goedkoopste combinatie van modules voor jouw zorg. Controleer de voorwaarden via de voetnoten voordat je beslist.</p>`;
-}
-const membersOnly=l=>/alleen voor/i.test((D.base[l]||{}).note||"");
-const labelOn=l=>S.labels.has(l)&&(S.members||!membersOnly(l));
-function rows(){return R.filter(r=>labelOn(r.label)&&(S.check||!r.needs_check))}
-function activePackages(){return P.filter(p=>labelOn(p.label))}
-
-function initFilters(){
-  const labels=[...new Set(P.map(p=>p.label))];
-  $("#f-label").innerHTML=labels.map(l=>`<button class="chip" aria-pressed="true" data-l="${esc(l)}">${esc(l)}<span class="n">${P.filter(p=>p.label===l).length}</span></button>`).join("");
-  $("#f-label").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const l=b.dataset.l;
-    S.labels.has(l)?S.labels.delete(l):S.labels.add(l);b.setAttribute("aria-pressed",S.labels.has(l));render()};
-  $("#f-check").onchange=e=>{S.check=e.target.checked;render()};
-  $("#f-deductible").onchange=e=>{S.deductible=+e.target.value;render()};
-  $("#f-free").onchange=e=>{S.freeChoice=e.target.checked;render()};
-  $("#f-members").onchange=e=>{S.members=e.target.checked;try{localStorage.setItem("pv-members",S.members?"1":"")}catch(err){}render()};
-  try{S.members=!!localStorage.getItem("pv-members")}catch(err){}$("#f-members").checked=S.members;
-  const membersChips=()=>document.querySelectorAll("#f-label .chip").forEach(c=>{if(membersOnly(c.dataset.l))c.hidden=!S.members});membersChips();
-  $("#f-members").addEventListener("change",membersChips);
-  $("#n-sort").onchange=e=>{S.needSort=e.target.value;renderNeeds()};
-  $("#b-none").onchange=e=>{S.showUncovered=e.target.checked;renderTreatment()};
-  $("#p-diff").onchange=e=>{S.diff=e.target.checked;renderPackages()};
-  $("#q").oninput=renderList;
-  const st=labels.map(l=>{const p=P.find(x=>x.label===l);return `<span>✓ <a href="${esc(p.source)}">${esc(l)}</a></span>`}).join("")+TODO.map(t=>`<span class="todo">${esc(t)}</span>`).join("")+GONE.map(t=>`<span class="todo">${esc(t)}</span>`).join("");
-  $("#status").innerHTML=st;
-}
-function route(){const h=location.hash.slice(1);S.view=["stappenplan","behandeling","pakketten","behoefte"].includes(h)?h:"stappenplan";
-  document.querySelectorAll("nav.tabs a").forEach(a=>a.dataset.v===S.view?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
-  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+S.view));render()}
-function render(){if(!D)return;renderList();({stappenplan:renderPlan,behandeling:renderTreatment,pakketten:renderPackages,behoefte:renderNeeds})[S.view]()}
-
-function treatmentIndex(){const rs=rows(),m=new Map();
-  for(const g of D.categories)m.set(g,new Map());
-  for(const r of rs){const g=m.get(r.category)||m.set(r.category,new Map()).get(r.category);
-    const o=g.get(r.treatment)||{n:0,c:0};o.n++;if(r.covered)o.c++;g.set(r.treatment,o)}
-  return m}
-function renderList(){
-  const q=($("#q").value||"").toLowerCase(),idx=treatmentIndex(),np=activePackages().length;let h="",hn="";
-  for(const [g,m] of idx){const items=[...m].filter(([b])=>b.toLowerCase().includes(q)).sort((a,b)=>b[1].c-a[1].c||a[0].localeCompare(b[0]));
-    if(!items.length)continue;
-    h+=`<div class="grp">${esc(g)}</div>`+items.map(([b,o])=>`<button class="treat" data-b="${esc(b)}" aria-current="${b===S.treatment}"><span>${esc(b)}</span><span class="c">${o.c}/${np}</span></button>`).join("");
-    hn+=`<div class="grp">${esc(g)}</div>`+items.map(([b,o])=>`<label class="treat" for="n-${esc(b)}"><span><input type="checkbox" id="n-${esc(b)}" data-b="${esc(b)}" ${S.need.has(b)?"checked":""}>${esc(b)}</span><span class="c">${o.c}</span></label>`).join("")}
-  $("#treatment-list").innerHTML=h||'<p class="empty">Geen behandeling gevonden.</p>';
-  $("#treatment-list").onclick=e=>{const b=e.target.closest(".treat");if(b){S.treatment=b.dataset.b;renderList();renderTreatment()}};
-  $("#n-list").innerHTML=hn;
-  $("#n-list").onchange=e=>{const b=e.target.dataset.b;if(!b)return;e.target.checked?S.need.add(b):S.need.delete(b);renderNeeds()};
-}
-
-function renderTreatment(){
-  FN=[];
-  const all=activePackages(),rs=rows().filter(r=>r.treatment===S.treatment);
-  const byK=new Map(rs.map(r=>[key(r),r]));
-  let list=all.map(p=>byK.get(key(p))||{...p,treatment:S.treatment,coverage:"Niet genoemd in bron",covered:false,provider:"",conditions:"",ref:"",unknown:true});
-  const cov=list.filter(r=>r.covered);
-  if(!S.showUncovered)list=cov;
-  const k=S.sort.k,d=S.sort.d;
-  list.sort((a,b)=>{let x,y;
-    if(k==="val"){x=val(a)??-1;y=val(b)??-1}
-    else if(k==="premium"){x=combo(packageOf(a)).total??9999;y=combo(packageOf(b)).total??9999}
-    else{x=(a.label+a.package).toLowerCase();y=(b.label+b.package).toLowerCase()}
-    return (x>y?1:x<y?-1:0)*d});
-  const max=Math.max(...cov.map(r=>r.eur_per_year??0),0),maxb=Math.max(...cov.map(r=>r.sessions??0),0);
-  $("#b-title").textContent=S.treatment;
-  const top=[...cov].sort((a,b)=>(val(b)??0)-(val(a)??0))[0];
-  const cheapest=cov.map(r=>({r,c:combo(packageOf(r))})).filter(x=>x.c.total!=null).sort((a,b)=>a.c.total-b.c.total)[0];
-  $("#b-sum").innerHTML=cov.length?`<b>${cov.length} van ${all.length}</b> pakketten vergoeden dit. Hoogste vergoeding: <b>${esc(top.label)} ${esc(top.package)}</b> (${esc(top.coverage)}).`+(cheapest?` Goedkoopste totaal met dekking: <b>${esc(cheapest.c.base.name)} + ${esc(cheapest.r.package)}</b> voor ${eur(cheapest.c.total)} per maand.`:""):"Geen van de geselecteerde pakketten vergoedt dit.";
-  const arrow=c=>S.sort.k===c?(S.sort.d>0?" ↑":" ↓"):"";
-  const head=`<thead><tr><th><button data-s="name">Pakket${arrow("name")}</button></th><th><button data-s="premium">Totaal p/m${arrow("premium")}</button></th><th><button data-s="val">Vergoeding${arrow("val")}</button></th><th>Zorgverlener en voorwaarden</th><th>Waar in de polis</th></tr></thead>`;
-  const body=list.map(r=>{const w=r.eur_per_year!=null&&max?r.eur_per_year/max:r.sessions!=null&&maxb?r.sessions/maxb:null;
-    const p=packageOf(r),c=combo(p);
-    return `<tr class="${r.covered?"":"none"}"><td class="pk"><b>${esc(r.label)}</b><span>${esc(r.package)}</span><div class="buy">Afsluiten: ${purchaseLine(p,c)}</div></td>
-    <td class="num">${totalCell(c)}${c.total!=null?fnPremium(p,c):""}</td>
-    <td>${shortValue(r.coverage)}${r.unknown?"":fnRec(r)} ${r.needs_check?'<span class="pill">controleren</span>':""}${w!=null?`<div class="bar" title="${esc(unit(r))}"><i style="width:${Math.max(4,w*100)}%"></i></div>`:""}</td>
-    <td>${more(r.provider,r.conditions)}</td>
-    <td class="src">${r.unknown?"":`<a href="${esc(srcUrl(r))}">${esc(r.ref||"document")}</a>`}</td></tr>`}).join("");
-  $("#b-table").innerHTML=head+`<tbody>${body||`<tr><td colspan="5" class="empty">Geen pakketten met dekking bij de huidige filters.</td></tr>`}</tbody>`;cardify($("#b-table"),{main:0,full:[2,3],sortable:true});
-  $("#b-fn").innerHTML=fnList();
-  $("#b-table").onclick=e=>{const b=e.target.closest("button[data-s]");if(!b)return;const s=b.dataset.s;
-    S.sort={k:s,d:S.sort.k===s?-S.sort.d:(s==="val"?-1:1)};renderTreatment()};
-}
-
-function renderPackages(){
-  FN=[];
-  const all=activePackages();
-  S.pick=S.pick.filter(k=>all.some(p=>key(p)===k));
-  $("#p-pick").innerHTML=all.map(p=>`<button class="chip" data-k="${esc(key(p))}" aria-pressed="${S.pick.includes(key(p))}">${esc(p.label)} ${esc(p.package)}${combo(p).total!=null?`<span class="n">${eur(combo(p).total)}</span>`:""}</button>`).join("");
-  $("#p-pick").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;const k=b.dataset.k;
-    if(S.pick.includes(k))S.pick=S.pick.filter(x=>x!==k);else if(S.pick.length<5)S.pick.push(k);renderPackages()};
-  const sel=S.pick.map(k=>all.find(p=>key(p)===k));
-  if(sel.length<2){$("#p-table").innerHTML=`<tbody><tr><td class="empty">Kies minstens twee pakketten.</td></tr></tbody>`;return}
-  const rs=rows(),cell=new Map(rs.map(r=>[key(r)+"|"+r.treatment,r]));
-  let h=`<thead><tr><th>Behandeling</th>${sel.map(p=>{const c=combo(p);return `<th>${esc(p.label)}<br>${esc(p.package)}<br><span class="mono">${c.total!=null?eur(c.total)+" totaal p/m":"totaal n.b."}</span>${c.total!=null?fnPremium(p,c):""}</th>`}).join("")}</tr></thead><tbody>
-  <tr><td class="rh">Afsluiten</td>${sel.map(p=>`<td class="small">${purchaseLine(p,combo(p))}</td>`).join("")}</tr>`;
-  const idx=treatmentIndex();
-  for(const [g,m] of idx){let gh="";
-    for(const b of [...m.keys()].sort()){
-      const cs=sel.map(p=>cell.get(key(p)+"|"+b));
-      if(cs.every(c=>!c||!c.covered))continue;
-      const txt=cs.map(c=>c&&c.covered?c.coverage:"");
-      if(S.diff&&new Set(txt).size===1)continue;
-      const vs=cs.map(c=>c&&c.covered?val(c)??0:-1),mx=Math.max(...vs),uniq=vs.filter(v=>v===mx).length===1;
-      gh+=`<tr><td class="rh">${esc(b)}</td>${cs.map((c,i)=>c&&c.covered?`<td class="${uniq&&vs[i]===mx?"best":""}">${shortValue(c.coverage)}${fnRec(c)} ${c.needs_check?'<span class="pill">controleren</span>':""}${c.provider?more(c.provider,""):""}</td>`:`<td class="small" style="color:var(--none)">${c?"Geen dekking":"Niet genoemd"}</td>`).join("")}</tr>`}
-    if(gh)h+=`<tr class="g"><td colspan="${sel.length+1}">${esc(g)}</td></tr>`+gh}
-  $("#p-table").innerHTML=h+"</tbody>";
-  $("#p-fn").innerHTML=fnList();
-}
-
-function renderNeeds(){
-  FN=[];
-  const need=[...S.need],rs=rows(),cell=new Map(rs.map(r=>[key(r)+"|"+r.treatment,r]));
-  if(!need.length){$("#n-sum").textContent="Vink links minstens één behandeling aan.";$("#n-rank").innerHTML="";return}
-  const ranked=activePackages().map(p=>{const hits=need.map(t=>({treatment:t,r:cell.get(key(p)+"|"+t)}));
-    const cov=hits.filter(h=>h.r&&h.r.covered);const euro=cov.reduce((s,h)=>s+(h.r.eur_per_year||0),0);
-    return {p,hits,n:cov.length,euro,c:combo(p)}}).sort((a,b)=>S.needSort==="price"?(b.n===need.length)-(a.n===need.length)||(a.c.total??9999)-(b.c.total??9999):b.n-a.n||(a.c.total??9999)-(b.c.total??9999));
-  const full=ranked.filter(x=>x.n===need.length);
-  const cheapest=full.filter(x=>x.c.total!=null).sort((a,b)=>a.c.total-b.c.total)[0];
-  $("#n-sum").innerHTML=`<b>${full.length}</b> pakketten dekken alle ${need.length} gekozen behandelingen.`+(cheapest?` Goedkoopste daarvan: <b>${esc(cheapest.c.base.name)} + ${esc(cheapest.p.label)} ${esc(cheapest.p.package)}</b> voor ${eur(cheapest.c.total)} per maand (${eur(cheapest.c.total*12)} per jaar).`:"");
-  $("#n-rank").innerHTML=ranked.map((x,i)=>`<div class="card"><span class="pos">${i+1}</span>
-    <div><b>${esc(x.p.label)} ${esc(x.p.package)}</b><div class="small">Afsluiten: ${purchaseLine(x.p,x.c)}${x.euro?` · ${eur(x.euro)} per jaar aan vaste maxima`:""}</div></div>
-    <div class="score"><b>${x.c.total!=null?eur(x.c.total):"n.b."}</b>${x.c.total!=null?fnPremium(x.p,x.c):""}<div class="small">totaal p/m · ${x.n}/${need.length} gedekt</div></div>
-    <ul>${x.hits.map(h=>h.r&&h.r.covered?`<li title="${esc(h.r.provider)}">${esc(h.treatment)}: ${esc(cut(h.r.coverage,70))}${fnRec(h.r)}</li>`:`<li class="miss">${esc(h.treatment)}</li>`).join("")}</ul></div>`).join("");
-  $("#n-fn").innerHTML=fnList();
-}
-</script>
-</body>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

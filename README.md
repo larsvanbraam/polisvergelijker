@@ -10,8 +10,21 @@ The site itself is in Dutch, as are the extracted policy texts. Code, comments a
 
 1. `download.sh` fetches the policy conditions and coverage overviews listed in `urls.txt` into `pdfs/` (not committed).
 2. The scripts in `scripts/extract/` read those PDFs (`pdftotext -layout` / pdfplumber) into `data/*.psv` and `data/*.mpsv`.
-3. `build.py` combines them with `data/base.json` (base policies, premiums, out-of-network reimbursement) into `site/data.json`.
-4. `site/` is the website: `index.html` (single file) and `data.json`, plus `api/contract.js`, a serverless function that asks the insurers' provider finders whether a provider has a contract.
+3. `build.py` combines them with `data/base.json` (base policies, premiums, out-of-network reimbursement) into `site/public/data.json`.
+4. `site/` is the website: a [Vite+](https://viteplus.dev) project in TypeScript (no framework), plus `api/contract.js`, a serverless function that asks the insurers' provider finders whether a provider has a contract.
+
+## Site structure (`site/src`)
+
+| Module | Purpose |
+|---|---|
+| `types.ts` | Shapes of `data.json` |
+| `data.ts` | Loading the data, active labels and packages |
+| `pricing.ts` | Total price, estimated reimbursement, contracts, FBTO module combinations (tested in `pricing.test.ts`) |
+| `plan.ts` | Step-by-step plan (tab *stappenplan*) |
+| `treatment.ts`, `packages.ts`, `needs.ts` | Tabs *behandeling*, *pakketten*, *behoefte* |
+| `sidebar.ts`, `filters.ts`, `contracts.ts` | Treatment list, filter bar and routing, contract table |
+| `footnotes.ts`, `links.ts`, `cards.ts`, `format.ts` | Footnotes, purchase lines, mobile card tables, formatting helpers |
+| `needlist.ts`, `concerns.ts`, `state.ts`, `theme.ts` | Preset needs, insurer groups and finder URLs, UI state, light/dark |
 
 ## Data formats
 
@@ -42,13 +55,18 @@ Each script has its usage in its docstring.
 ## Run locally
 
 ```bash
-python3 build.py      # rebuild site/data.json
-node dev.js           # http://localhost:8765
+python3 build.py      # rebuild site/public/data.json
+cd site
+vp install            # once, and after pulling dependency changes
+vp dev                # http://localhost:5173, includes /api/contract
+vp check              # format, lint and type check
+vp test               # unit tests
+vp build              # production build in site/dist
 ```
 
 ## Deploy
 
-Vercel project `polisvergelijker`, connected to this repo with **Root Directory: `site`**. Every push to `main` goes live; other branches get a preview URL. After changing data, run `python3 build.py` first so `site/data.json` is part of the commit.
+Vercel project `polisvergelijker`, connected to this repo with **Root Directory: `site`**. `site/vercel.json` sets the Vite framework, `npm ci`, `npm run build` and the `dist` output. Every push to `main` goes live; other branches get a preview URL. After changing data, run `python3 build.py` first so `site/public/data.json` is part of the commit.
 
 ## Disclaimer
 
